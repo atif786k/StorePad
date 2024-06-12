@@ -1,0 +1,120 @@
+/* Navigation Styling:- */
+.nav-container {
+  /* border: 1px solid black; */
+  border-radius: 25px;
+  font-size: 18px;
+  padding: 18px;
+}
+.logo-container {
+  margin-top: 4px;
+  padding: 18px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02rem;
+}
+.profile-container {
+  padding: 18px;
+  border: 1px solid red;
+  border-radius: 25px;
+}
+.profile-container span {
+  display: flex;
+  letter-spacing: -0.02rem;
+  line-height: 20px;
+}
+.quick-links {
+  padding: 18px;
+  border: 1px solid yellowgreen;
+  border-radius: 25px;
+}
+.links-heading {
+  padding-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.quick-links ul li {
+  padding: 4px 0px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.02rem;
+}
+.nav-icons-style {
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+/* Notes Show styling:- */
+.notes-show-container {
+  /* border: 1px solid black; */
+  border-radius: 25px;
+}
+.search-notes {
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.search-icon {
+  margin-left: 12px;
+  position: absolute;
+}
+.input {
+  width: 90%;
+  height: 45px;
+  line-height: 30px;
+  padding: 0 5rem;
+  padding-left: 3rem;
+  border-radius: 12px;
+  outline: none;
+  background-color: #f1f1f1;
+  color: #0d0c22;
+  transition: 0.5s ease;
+}
+.create-btn {
+  height: 45px;
+  width: 45px;
+  margin-left: 12px;
+  border: 1px solid black;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.show-icons-style {
+  font-size: 24px;
+}
+.notes-list {
+  padding: 18px;
+}
+.notes-list-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02rem;
+}
+
+/* Notes Details Styling:- */
+.note-detail-container {
+  /* border: 1px solid black; */
+  border-radius: 25px;
+}
+.note-tools {
+  padding: 18px;
+  display: flex;
+  justify-content: flex-end;
+}
+.tool-btns {
+  padding: 0px 8px;
+  height: 45px;
+  width: fit-content;
+  margin-left: 12px;
+  border: 1px solid black;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tool-icons-style {
+  margin-right: 8px;
+  font-size: 24px;
+}
