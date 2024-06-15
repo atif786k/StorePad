@@ -2,11 +2,11 @@ import React from "react";
 import "./style/utils.css";
 import { CiStar } from "react-icons/ci";
 import { FiEdit2 } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineLogout } from "react-icons/ai";
 import ShowNote_Card from "../components/ShowNote_Card";
 import CreateNote_Card from "../components/CreateNote_Card";
 
-const NoteDetail = () => {
+const NoteDetail = ({ logOutFunction }) => {
   return (
     <>
       <div className="note-detail-container">
@@ -23,9 +23,16 @@ const NoteDetail = () => {
             <AiOutlineDelete className="tool-icons-style" />
             Delete
           </button>
+          <button
+            onClick={() => logOutFunction()}
+            className="logout-btn tool-btns"
+          >
+            <AiOutlineLogout className="tool-icons-style" />
+            LogOut
+          </button>
         </nav>
-       {/* <ShowNote_Card/> */}
-       <CreateNote_Card/>
+        {/* <ShowNote_Card/> */}
+        {/* <CreateNote_Card /> */}
       </div>
     </>
   );

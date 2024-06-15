@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "../axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [loginValues, setLoginValues] = useState({
     username: "",
     password: "",
@@ -18,15 +20,15 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post("/auth/login", loginValues);
+      console.log(response.data);
       alert(response.data.msg);
       console.log("Login sucessfully no need to worry");
+      navigate("/main");
       clearAllFields();
     } catch (error) {
-      alert(error.response ? error.response.data.message : 'Failed to login');
+      alert(error.response ? error.response.data.message : "Failed to login");
     }
   };
-
-  
 
   return (
     <>
@@ -36,7 +38,10 @@ const Login = () => {
           name="username"
           placeholder="User Name"
           onChange={(event) =>
-            setLoginValues((prev) => ({ ...prev, username: event.target.value }))
+            setLoginValues((prev) => ({
+              ...prev,
+              username: event.target.value,
+            }))
           }
           value={loginValues.username}
         />
@@ -45,15 +50,16 @@ const Login = () => {
           name="password"
           placeholder="Enter your password"
           onChange={(event) =>
-            setLoginValues((prev) => ({ ...prev, password: event.target.value }))
+            setLoginValues((prev) => ({
+              ...prev,
+              password: event.target.value,
+            }))
           }
           value={loginValues.password}
         />
         <button type="submit" className="sumbit-login-form">
           Login
         </button>
-
-        
       </form>
     </>
   );
