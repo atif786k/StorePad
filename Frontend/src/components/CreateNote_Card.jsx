@@ -1,17 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style/style.css";
+import axios from "../axios";
+import { enqueueSnackbar } from "notistack";
 
 const CreateNote_Card = () => {
+  const [notevalues, setNoteValues] = useState({
+    title: "",
+    description: "",
+  });
+
+  const clearAllFields = () => {
+    setNoteValues({
+      title: "",
+      description: "",
+    });
+  };
+
+  const handleNoteCreation = async (event) => {
+    event.preventDefault();
+    console.log(notevalues);
+    try {
+      const response = await axios.post("/note/create-note", notevalues);
+      enqueueSnackbar(response.data.msg, { variant: "success" });
+      clearAllFields();
+    } catch (error) {
+      alert(error.response.data.msg);
+    }
+  };
+
   return (
     <>
       <main className="main-container">
-        <div class="form-container">
-          <form class="form">
-            <div class="form-group">
-              <label for="title">Title</label>
-              <input required="" name="title" id="title" type="text" />
+        <div className="form-container">
+          <form className="form" onSubmit={handleNoteCreation}>
+            <div className="form-group">
+              <label>Title</label>
+              <input
+                required=""
+                name="title"
+                id="title"
+                type="text"
+                value={notevalues.title}
+                onChange={(event) =>
+                  setNoteValues((prev) => ({
+                    ...prev,
+                    title: event.target.value,
+                  }))
+                }
+              />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <label for="textarea">Write your content here</label>
               <textarea
                 required=""
@@ -19,11 +57,18 @@ const CreateNote_Card = () => {
                 rows="200"
                 id="textarea"
                 name="textarea"
+                value={notevalues.description}
+                onChange={(event) =>
+                  setNoteValues((prev) => ({
+                    ...prev,
+                    description: event.target.value,
+                  }))
+                }
               >
                 {" "}
               </textarea>
             </div>
-            <button type="submit" class="form-submit-btn">
+            <button type="submit" className="form-submit-btn">
               Create
             </button>
           </form>

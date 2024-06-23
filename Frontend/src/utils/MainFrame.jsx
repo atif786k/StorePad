@@ -5,10 +5,14 @@ import NoteDetail from "./NoteDetail";
 import "./style/mainFrame.css";
 import axios from "../axios";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const MainFrame = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [userProfile, setUserProfile] = useState({
+    user_id: "",
     username: "",
     email: "",
   });
@@ -17,12 +21,13 @@ const MainFrame = () => {
     try {
       const response = await axios("/auth/user");
       setUserProfile({
+        user_id: response.data.userProfile.user_id,
         username: response.data.userProfile.username,
         email: response.data.userProfile.email,
       });
       console.log(userProfile.username);
     } catch (error) {
-      alert(error.response.data.msg);
+      enqueueSnackbar(error.response.data.msg, {variant: 'warning'})
       navigate("/");
     }
   };
@@ -30,7 +35,7 @@ const MainFrame = () => {
   const handleLogOut = async () => {
     try {
       const response = await axios.get("/auth/logout");
-      alert(response.data.message);
+      enqueueSnackbar(response.data.msg, { variant: "success" });
       navigate("/login");
     } catch (error) {
       alert(error.response.data.message);

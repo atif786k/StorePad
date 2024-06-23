@@ -32,7 +32,7 @@ const NoteDetail = ({ logOutFunction }) => {
           </button>
         </nav>
         {/* <ShowNote_Card/> */}
-        {/* <CreateNote_Card /> */}
+        <CreateNote_Card />
       </div>
     </>
   );

@@ -6,7 +6,7 @@ const LandingPage = () => {
       <h1>Login or Sign up First to continue</h1>
       <a href="/login">Login</a>
       <br />
-      <a href="/signup">Signup</a>
+      <a href="/signin">Signin</a>
     </div>
   );
 };

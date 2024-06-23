@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import "./auth.css";
 import axios from "../axios";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const enqueueSnackbar = useSnackbar();
+
   const [fieldsValues, setFieldValues] = useState({
     username: "",
     email: "",
@@ -23,11 +26,14 @@ const SignIn = () => {
     event.preventDefault();
     try {
       const response = await axios.post("/auth/register", fieldsValues);
-      alert(response.data.msg);
+      enqueueSnackbar(response.data.msg, { varient: "success" });
       navigate("/login");
       clearAllFields();
     } catch (error) {
-      alert("Failed to register");
+      alert(
+        "Failed to register: " +
+          (error.response ? error.response.data.msg : error.message)
+      );
     }
   };
 

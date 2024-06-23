@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "../axios";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const [loginValues, setLoginValues] = useState({
     username: "",
     password: "",
@@ -20,13 +22,12 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post("/auth/login", loginValues);
-      console.log(response.data);
-      alert(response.data.msg);
-      console.log("Login sucessfully no need to worry");
+      enqueueSnackbar(response.data.msg, { variant: "success" });
       navigate("/main");
       clearAllFields();
     } catch (error) {
-      alert(error.response ? error.response.data.message : "Failed to login");
+      enqueueSnackbar(error, { variant: "error" });
+      // alert(error.response ? error.response.data.msg : "Failed to login");
     }
   };
 
