@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./auth.css";
 import axios from "../axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { CiUser, CiLock, CiMail } from "react-icons/ci";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ const SignIn = () => {
     event.preventDefault();
     try {
       const response = await axios.post("/auth/register", fieldsValues);
-      enqueueSnackbar(response.data.msg, { varient: "success" });
+      // enqueueSnackbar(response.data.msg, { varient: "success" });
+      console.log(response.data.msg);
       navigate("/login");
       clearAllFields();
     } catch (error) {
@@ -39,52 +41,78 @@ const SignIn = () => {
 
   return (
     <>
-      <form className="sign-container" onSubmit={handleSignForm}>
-        <div className="inputs-fields">
-          <input
-            id="username"
-            required
-            onChange={(event) =>
-              setFieldValues((prev) => ({
-                ...prev,
-                username: event.target.value,
-              }))
-            }
-            value={fieldsValues.username} // Ensure this is set
-            type="text"
-            name="username"
-            placeholder="User Name"
-          />
-          <input
-            id="email"
-            required
-            onChange={(event) =>
-              setFieldValues((prev) => ({ ...prev, email: event.target.value }))
-            }
-            value={fieldsValues.email} // Ensure this is set
-            type="email"
-            name="email"
-            placeholder="Email"
-          />
-          <input
-            id="password"
-            required
-            onChange={(event) =>
-              setFieldValues((prev) => ({
-                ...prev,
-                password: event.target.value,
-              }))
-            }
-            value={fieldsValues.password} // Ensure this is set
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-        </div>
-        <button type="submit" className="submit-sign-form">
-          Sign in
-        </button>
-      </form>
+      <div className="signin-container">
+        <form className="signin-form space-y-4" onSubmit={handleSignForm}>
+          <div className="signin-title">
+            <h2>Create an account</h2>
+            <h4>
+              Already have an account?{" "}
+              <Link to="/login" className="font-bold">
+                Login
+              </Link>
+            </h4>
+          </div>
+          <div className="input-div">
+            <CiUser className="signin-icon-style" />
+            <input
+              className="signin-input-fields"
+              id="username"
+              required
+              onChange={(event) =>
+                setFieldValues((prev) => ({
+                  ...prev,
+                  username: event.target.value,
+                }))
+              }
+              value={fieldsValues.username} // Ensure this is set
+              type="text"
+              name="username"
+              placeholder="User Name"
+            />
+          </div>
+
+          <div className="input-div">
+            <CiMail className="signin-icon-style" />
+            <input
+              className="signin-input-fields"
+              id="email"
+              required
+              onChange={(event) =>
+                setFieldValues((prev) => ({
+                  ...prev,
+                  email: event.target.value,
+                }))
+              }
+              value={fieldsValues.email} // Ensure this is set
+              type="email"
+              name="email"
+              placeholder="Email"
+            />
+          </div>
+
+          <div className="input-div">
+            <CiLock className="signin-icon-style" />
+            <input
+              className="signin-input-fields"
+              id="password"
+              required
+              onChange={(event) =>
+                setFieldValues((prev) => ({
+                  ...prev,
+                  password: event.target.value,
+                }))
+              }
+              value={fieldsValues.password} // Ensure this is set
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
+          </div>
+          <button type="submit" className="submit-sign-form signin-btn">
+            Sign in
+          </button>
+        </form>
+      </div>
     </>
   );
 };

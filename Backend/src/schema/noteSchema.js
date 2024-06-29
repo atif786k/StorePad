@@ -3,14 +3,16 @@ const mongoose = require("mongoose");
 const noteSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.String,
-        unique: true,
         required: true,
+        ref: 'User',
     },
     title: {
         type: mongoose.Schema.Types.String,
+        required: true,
     },
     description: {
-        type: mongoose.Schema.Types.String
+        type: mongoose.Schema.Types.String,
+        required: true,
     },
     createdOn: {
         type: Date,

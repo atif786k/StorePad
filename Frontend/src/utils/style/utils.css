@@ -47,7 +47,9 @@
 /* Notes Show styling:- */
 .notes-show-container {
   /* border: 1px solid black; */
-  border-radius: 25px;
+  border-radius: 25px;  
+  height: 100%;
+  /* overflow-y: hidden; */
 }
 .search-notes {
   padding: 18px;
@@ -86,6 +88,13 @@
 }
 .notes-list {
   padding: 18px;
+}
+.scroll-container{
+  height: 540px;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar{
+  width: 0px;
 }
 .notes-list-title {
   font-size: 24px;

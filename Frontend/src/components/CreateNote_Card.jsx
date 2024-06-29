@@ -3,7 +3,7 @@ import "./style/style.css";
 import axios from "../axios";
 import { enqueueSnackbar } from "notistack";
 
-const CreateNote_Card = () => {
+const CreateNote_Card = ({ getAllNotesFunction }) => {
   const [notevalues, setNoteValues] = useState({
     title: "",
     description: "",
@@ -22,6 +22,8 @@ const CreateNote_Card = () => {
     try {
       const response = await axios.post("/note/create-note", notevalues);
       enqueueSnackbar(response.data.msg, { variant: "success" });
+      getAllNotesFunction();
+      console.log(response.data.errorMsg);
       clearAllFields();
     } catch (error) {
       alert(error.response.data.msg);
@@ -50,7 +52,7 @@ const CreateNote_Card = () => {
               />
             </div>
             <div className="form-group">
-              <label for="textarea">Write your content here</label>
+              <label>Write your content here</label>
               <textarea
                 required=""
                 cols="20"
