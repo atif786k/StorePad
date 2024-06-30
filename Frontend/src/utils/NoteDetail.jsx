@@ -6,7 +6,7 @@ import { AiOutlineDelete, AiOutlineLogout } from "react-icons/ai";
 import ShowNote_Card from "../components/ShowNote_Card";
 import CreateNote_Card from "../components/CreateNote_Card";
 
-const NoteDetail = ({ logOutFunction, getNotesFunction }) => {
+const NoteDetail = ({ logOutFunction, getNotesFunction, singleNote }) => {
   return (
     <>
       <div className="note-detail-container">
@@ -31,7 +31,11 @@ const NoteDetail = ({ logOutFunction, getNotesFunction }) => {
             LogOut
           </button>
         </nav>
-        {/* <ShowNote_Card/> */}
+        <ShowNote_Card
+          title={singleNote.title}
+          description={singleNote.description}
+          createdDate={singleNote.createdOn}
+        />
         {/* <CreateNote_Card getAllNotesFunction={getNotesFunction}/> */}
       </div>
     </>

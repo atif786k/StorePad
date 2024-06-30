@@ -11,6 +11,7 @@ const MainFrame = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [allNotes, setAllNotes] = useState([]);
+  const [singleNote, setSingleNote] = useState([]);
 
   const [userProfile, setUserProfile] = useState({
     user_id: "",
@@ -27,7 +28,7 @@ const MainFrame = () => {
         email: response.data.userProfile.email,
       });
     } catch (error) {
-      enqueueSnackbar(error.response.data.msg, {variant: 'warning'})
+      enqueueSnackbar(error.response.data.msg, { variant: "warning" });
       navigate("/");
     }
   };
@@ -42,29 +43,44 @@ const MainFrame = () => {
     }
   };
 
-
   const getAllNotes = async () => {
     try {
       const response = await axios.get("/note/fetch-note");
-      if(response.data && response.data.notes){
+      if (response.data && response.data.notes) {
         setAllNotes(response.data.notes);
       }
     } catch (error) {
       console.log(error.response.data.errorMsg);
     }
-  }
+  };
+
+  const getSingleNote = async (_id) => {
+    try {
+      const response = await axios.get(`/note/fetch-note/${_id}`);
+      if (response.data && response.data.singleNote) {
+        setSingleNote(response.data.singleNote);
+        console.log(response.data.singleNote);
+      }
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
+  };
 
   useEffect(() => {
     getAllNotes();
     getUserProfile();
-    return () => {}
+    return () => {};
   }, []);
 
   return (
     <div className="main-frame">
       <Navigation profile={userProfile} />
-      <NoteShow allNotes={allNotes}/>
-      <NoteDetail logOutFunction={handleLogOut} getNotesFunction={getAllNotes}/>
+      <NoteShow allNotes={allNotes} getSingleNote={getSingleNote} />
+      <NoteDetail
+        singleNote={singleNote}
+        logOutFunction={handleLogOut}
+        getNotesFunction={getAllNotes}
+      />
     </div>
   );
 };

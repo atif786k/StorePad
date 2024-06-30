@@ -39,4 +39,17 @@ router.get("/note/fetch-note", async (req, res) => {
     // }
 });
 
+router.get("/note/fetch-note/:id", async (req, res) => {
+    const { params: { id } } = req;
+    if(!req.user){ return res.status(401).json({ msg: "Not Authenticated" }) };
+
+    try {
+        const singleNote = await Notes.findById(id);
+        if(!singleNote){ return res.json({msg: "Note not found"}) };
+        res.status(200).json({msg: "found that note successfully", singleNote})
+    } catch (error) {
+        res.status(500).json({msg:"Some error occured", errorMsg: error});
+    }
+})
+
 module.exports = router;
