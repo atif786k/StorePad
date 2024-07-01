@@ -4,14 +4,20 @@ import { CiSearch } from "react-icons/ci";
 import { HiOutlinePlus } from "react-icons/hi2";
 import NoteList_Card from "../components/NoteList_Card";
 
-const NoteShow = ({ allNotes, getSingleNote }) => {
+const NoteShow = ({ allNotes, getSingleNote, popupFunction }) => {
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toUTCString();
+  };
+
   return (
     <>
       <div className="notes-show-container">
         <div className="search-notes">
           <CiSearch className="show-icons-style search-icon" />
           <input className="input" type="text" placeholder="Search" />
-          <button className="create-btn">
+          <button onClick={()=>popupFunction()} className="create-btn">
             <HiOutlinePlus className="show-icons-style" />
           </button>
         </div>
@@ -24,7 +30,7 @@ const NoteShow = ({ allNotes, getSingleNote }) => {
                   <NoteList_Card
                     title={e.title}
                     description={e.description}
-                    createdDate={e.createdOn}
+                    createdDate={formatDate(e.createdOn)}
                   />
                 </div>
               );

@@ -56,7 +56,7 @@ router.post("/auth/login", passport.authenticate("local"), (req, res) => {
 router.get("/auth/user", (req, res) => {
   if (req.user) {
     return res.json({
-      msg: "Fetched User Profile",
+      msg: "User is authenticated",
       userProfile: {
         user_id: req.user._id,
         username: req.user.username,

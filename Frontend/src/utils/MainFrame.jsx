@@ -12,6 +12,7 @@ const MainFrame = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [allNotes, setAllNotes] = useState([]);
   const [singleNote, setSingleNote] = useState([]);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const [userProfile, setUserProfile] = useState({
     user_id: "",
@@ -59,11 +60,27 @@ const MainFrame = () => {
       const response = await axios.get(`/note/fetch-note/${_id}`);
       if (response.data && response.data.singleNote) {
         setSingleNote(response.data.singleNote);
-        console.log(response.data.singleNote);
       }
     } catch (error) {
       console.log(error.response.data.msg);
     }
+  };
+
+  const handleDeleteNote = async () => {
+    try {
+      const response = await axios.delete(
+        `/note/delete-note/${singleNote._id}`
+      );
+      console.log(response.data.msg);
+      enqueueSnackbar(response.data.msg, { variant: "success" });
+      getAllNotes();
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
+  };
+
+  const handlePopup = () => {
+    setIsPopupVisible(!isPopupVisible);
   };
 
   useEffect(() => {
@@ -75,11 +92,18 @@ const MainFrame = () => {
   return (
     <div className="main-frame">
       <Navigation profile={userProfile} />
-      <NoteShow allNotes={allNotes} getSingleNote={getSingleNote} />
+      <NoteShow
+        allNotes={allNotes}
+        getSingleNote={getSingleNote}
+        popupFunction={handlePopup}
+      />
       <NoteDetail
         singleNote={singleNote}
+        isPopupVisible={isPopupVisible}
         logOutFunction={handleLogOut}
+        deleteFunction={handleDeleteNote}
         getNotesFunction={getAllNotes}
+        popupFunction={handlePopup}
       />
     </div>
   );

@@ -14,7 +14,7 @@ router.post("/note/create-note", async (req, res) => {
     try {
         const newNote = new Notes({ userId: req.user._id, title, description });
         const savedNote = await newNote.save();
-        res.status(200).json({ msg: "Note Created", savedNote });
+        res.status(200).json({ msg: "New Note Created", savedNote });
     } catch (error) {
         res.json({ msg: "Failed to create the note" , errorMsg: error});
     }
@@ -46,9 +46,23 @@ router.get("/note/fetch-note/:id", async (req, res) => {
     try {
         const singleNote = await Notes.findById(id);
         if(!singleNote){ return res.json({msg: "Note not found"}) };
-        res.status(200).json({msg: "found that note successfully", singleNote})
+        res.status(200).json({msg: "Note found successfully", singleNote})
     } catch (error) {
         res.status(500).json({msg:"Some error occured", errorMsg: error});
+    }
+})
+
+router.delete("/note/delete-note/:id", async (req, res) => {
+    const { params: { id } } = req;
+    if(!req.user){ return res.status(401).json({msg: "Not Authenticated"}) };
+
+    try {
+        const findNote = await Notes.findById(id);
+        if(!findNote){return res.json({msg: "Note not found"})};
+        const deleteNote = await Notes.deleteOne({_id: id, userId: req.user._id});
+        res.status(200).json({msg: "Note deleted successfully", deleteNote});
+    } catch (error) {
+        res.status(500).json({msg: "Some error occured", errorMsg: error});
     }
 })
 

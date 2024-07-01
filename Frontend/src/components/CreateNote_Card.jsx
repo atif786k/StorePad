@@ -3,7 +3,7 @@ import "./style/style.css";
 import axios from "../axios";
 import { enqueueSnackbar } from "notistack";
 
-const CreateNote_Card = ({ getAllNotesFunction }) => {
+const CreateNote_Card = ({ getAllNotesFunction, popupFunction }) => {
   const [notevalues, setNoteValues] = useState({
     title: "",
     description: "",
@@ -73,6 +73,7 @@ const CreateNote_Card = ({ getAllNotesFunction }) => {
             <button type="submit" className="form-submit-btn">
               Create
             </button>
+            <button onClick={()=>popupFunction()} className="close">close</button>
           </form>
         </div>
       </main>

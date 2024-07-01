@@ -6,7 +6,20 @@ import { AiOutlineDelete, AiOutlineLogout } from "react-icons/ai";
 import ShowNote_Card from "../components/ShowNote_Card";
 import CreateNote_Card from "../components/CreateNote_Card";
 
-const NoteDetail = ({ logOutFunction, getNotesFunction, singleNote }) => {
+const NoteDetail = ({
+  logOutFunction,
+  deleteFunction,
+  getNotesFunction,
+  singleNote,
+  isPopupVisible,
+  popupFunction,
+}) => {
+  
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toUTCString();
+  };
+
   return (
     <>
       <div className="note-detail-container">
@@ -19,7 +32,10 @@ const NoteDetail = ({ logOutFunction, getNotesFunction, singleNote }) => {
             <FiEdit2 className="tool-icons-style" />
             Edit
           </button>
-          <button className="delete-btn tool-btns">
+          <button
+            onClick={() => deleteFunction()}
+            className="delete-btn tool-btns"
+          >
             <AiOutlineDelete className="tool-icons-style" />
             Delete
           </button>
@@ -31,12 +47,20 @@ const NoteDetail = ({ logOutFunction, getNotesFunction, singleNote }) => {
             LogOut
           </button>
         </nav>
-        <ShowNote_Card
-          title={singleNote.title}
-          description={singleNote.description}
-          createdDate={singleNote.createdOn}
-        />
-        {/* <CreateNote_Card getAllNotesFunction={getNotesFunction}/> */}
+
+        <main className="function-container">
+          {isPopupVisible && (
+            <CreateNote_Card
+              getAllNotesFunction={getNotesFunction}
+              popupFunction={popupFunction}
+            />
+          )}
+          <ShowNote_Card
+            title={singleNote.title}
+            description={singleNote.description}
+            createdDate={formatDate(singleNote.createdOn)}
+          />
+        </main>
       </div>
     </>
   );

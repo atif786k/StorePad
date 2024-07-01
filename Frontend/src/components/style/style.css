@@ -3,7 +3,7 @@
   padding: 18px;
 }
 .show-note-card-title {
-  padding: 18px 0px;
+  padding-bottom: 18px;
   font-size: 32px;
   font-weight: 600;
 }
@@ -11,10 +11,15 @@
   font-size: 18px;
   font-weight: 400;
 }
+.show-note-card h2{
+  padding-top: 12px;
+}
 
 /* Create Note Card styling:- */
 .main-container {
+  width: 100%;
   padding: 18px;
+  position: absolute;
 }
 .form-container {
   width: 100%;
