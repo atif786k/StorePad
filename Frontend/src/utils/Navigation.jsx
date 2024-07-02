@@ -13,8 +13,8 @@ const Navigation = ({ profile }) => {
           </span>
         </div>
         <div className="profile-container">
-          <span>ID: {profile.user_id ? profile.user_id : "id"}</span>
-          <span>Username: {profile.username ? profile.username : "User"}</span>
+          {/* <span>ID: {profile.user_id ? profile.user_id : "id"}</span> */}
+          <span>{profile.username ? profile.username : "User"}</span>
           <span>{profile.email ? profile.email : "user@gmail.com"}</span>
         </div>
         <div className="quick-links">

@@ -1,4 +1,5 @@
 import React from "react";
+import "./style/style.css"
 
 const NoteList_Card = (props) => {
   return (

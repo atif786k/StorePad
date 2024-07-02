@@ -1,18 +1,21 @@
 import React from "react";
 import "./style/utils.css";
+import ShowNote_Card from "../components/ShowNote_Card";
+import CreateNote_Card from "../components/CreateNote_Card";
+import EditNote_Card from "../components/EditNote_Card";
 import { CiStar } from "react-icons/ci";
 import { FiEdit2 } from "react-icons/fi";
 import { AiOutlineDelete, AiOutlineLogout } from "react-icons/ai";
-import ShowNote_Card from "../components/ShowNote_Card";
-import CreateNote_Card from "../components/CreateNote_Card";
 
 const NoteDetail = ({
   logOutFunction,
   deleteFunction,
   getNotesFunction,
   singleNote,
-  isPopupVisible,
-  popupFunction,
+  isPopupVisibleAdd,
+  isPopupVisibleEdit,
+  popupFunctionAdd,
+  popupFunctionEdit
 }) => {
   
   const formatDate = (timestamp) => {
@@ -28,7 +31,7 @@ const NoteDetail = ({
             <CiStar className="tool-icons-style" />
             Favorite
           </button>
-          <button className="edit-btn tool-btns">
+          <button onClick={()=>popupFunctionEdit()} className="edit-btn tool-btns">
             <FiEdit2 className="tool-icons-style" />
             Edit
           </button>
@@ -41,7 +44,7 @@ const NoteDetail = ({
           </button>
           <button
             onClick={() => logOutFunction()}
-            className="logout-btn tool-btns"
+            className="logout-btn tool-btns styling-btn"
           >
             <AiOutlineLogout className="tool-icons-style" />
             LogOut
@@ -49,11 +52,14 @@ const NoteDetail = ({
         </nav>
 
         <main className="function-container">
-          {isPopupVisible && (
+        {isPopupVisibleAdd && (
             <CreateNote_Card
               getAllNotesFunction={getNotesFunction}
-              popupFunction={popupFunction}
+              popupFunctionAdd={popupFunctionAdd}
             />
+          )}
+          {isPopupVisibleEdit && (
+            <EditNote_Card popupFunctionEdit={popupFunctionEdit}/>
           )}
           <ShowNote_Card
             title={singleNote.title}

@@ -12,7 +12,8 @@ const MainFrame = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [allNotes, setAllNotes] = useState([]);
   const [singleNote, setSingleNote] = useState([]);
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPopupVisibleAdd, setIsPopupVisibleAdd] = useState(false);
+  const [isPopupVisibleEdit, setIsPopupVisibleEdit] = useState(false);
 
   const [userProfile, setUserProfile] = useState({
     user_id: "",
@@ -79,8 +80,12 @@ const MainFrame = () => {
     }
   };
 
-  const handlePopup = () => {
-    setIsPopupVisible(!isPopupVisible);
+  const handlePopupAdd = () => {
+    setIsPopupVisibleAdd(!isPopupVisibleAdd);
+  };
+
+  const handlePopupEdit = () => {
+    setIsPopupVisibleEdit(!isPopupVisibleEdit);
   };
 
   useEffect(() => {
@@ -95,15 +100,17 @@ const MainFrame = () => {
       <NoteShow
         allNotes={allNotes}
         getSingleNote={getSingleNote}
-        popupFunction={handlePopup}
+        popupFunctionAdd={handlePopupAdd}
       />
       <NoteDetail
         singleNote={singleNote}
-        isPopupVisible={isPopupVisible}
+        isPopupVisibleAdd={isPopupVisibleAdd}
+        isPopupVisibleEdit={isPopupVisibleEdit}
         logOutFunction={handleLogOut}
         deleteFunction={handleDeleteNote}
         getNotesFunction={getAllNotes}
-        popupFunction={handlePopup}
+        popupFunctionAdd={handlePopupAdd}
+        popupFunctionEdit={handlePopupEdit}
       />
     </div>
   );

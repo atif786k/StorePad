@@ -52,6 +52,28 @@ router.get("/note/fetch-note/:id", async (req, res) => {
     }
 })
 
+router.put("/note/edit-note/:id", async (req, res) => {
+    if(!req.user){return res.status(401).json({msg: "Not Authenticated"})}
+    const { params: { id } } = req;
+    const { title, description } = req.body;
+
+    if(!title && !description){return res.status(400).json({msg: "No changes done"})};
+
+    try{
+        const note = await Notes.findById(id);
+        if(!note){return res.json({msg: "Note not found"})}
+        if(title){ note.title = title };
+        if(description){ note.description = description };
+
+        const updatedNote = await note.save();
+        res.status(200).json({msg: "Note updated successfully", updatedNote});
+    }
+    catch(error){
+        res.status(500).json({msg: "Some error occured", errorMsg: error.message});
+    }
+
+ })
+
 router.delete("/note/delete-note/:id", async (req, res) => {
     const { params: { id } } = req;
     if(!req.user){ return res.status(401).json({msg: "Not Authenticated"}) };

@@ -1,6 +1,6 @@
 /* Show Note Card styling:- */
 .show-note-card {
-  padding: 18px;
+  padding: 18px 18px 18px 24px;
 }
 .show-note-card-title {
   padding-bottom: 18px;
@@ -144,6 +144,6 @@
 .note-list-card {
   margin-top: 18px;
   padding: 18px;
-  border: 1px solid #414141;
+  border: 1px solid black;
   border-radius: 25px;
 }

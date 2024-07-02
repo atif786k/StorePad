@@ -14,7 +14,7 @@
 }
 .profile-container {
   padding: 18px;
-  border: 1px solid red;
+  border: 1px solid black;
   border-radius: 25px;
 }
 .profile-container span {
@@ -24,7 +24,7 @@
 }
 .quick-links {
   padding: 18px;
-  border: 1px solid yellowgreen;
+  border: 1px solid black;
   border-radius: 25px;
 }
 .links-heading {
@@ -69,19 +69,26 @@
   padding-left: 3rem;
   border-radius: 12px;
   outline: none;
-  background-color: #f1f1f1;
-  color: #0d0c22;
+  background-color: #c0c0c3;
+  color: black;
   transition: 0.5s ease;
 }
 .create-btn {
   height: 45px;
   width: 45px;
   margin-left: 12px;
-  border: 1px solid black;
+  border: 2px solid #39ff14;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #39ff14;
+  color: black;
+  transition: all ease-in 0.2s;
+}
+.create-btn:hover {
+  background-color: transparent;
+  color: #39ff14;
 }
 .show-icons-style {
   font-size: 24px;
@@ -119,13 +126,26 @@
   height: 45px;
   width: fit-content;
   margin-left: 12px;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 12px;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all ease-in 0.2s;
+}
+.tool-btns:hover {
+  border-color: #39ff14;
 }
 .tool-icons-style {
   margin-right: 8px;
   font-size: 24px;
+}
+.styling-btn {
+  background-color: #39ff14;
+  color: black;
+}
+.styling-btn:hover {
+  background-color: transparent;
+  color: #39ff14;
 }
