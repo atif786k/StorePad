@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import "./style/style.css";
+import axios from "../axios";
 
-const EditNote_Card = ({ popupFunctionEdit }) => {
-    const [notevalues, setNoteValues] = useState({
-        title: "",
-        description: "",
-      });
+const EditNote_Card = ({ popupFunctionEdit, noteData, getNotesFunction }) => {
+
+  const [notevalues, setNoteValues] = useState({
+    title: noteData.title,
+    description: noteData.description,
+  });
+
+  const handleEditNote = async () => {
+    try {
+      const response = await axios.put(`/note/edit-note/${noteData._id}`, notevalues);
+      console.log(response.data.msg);
+      popupFunctionEdit();
+      getNotesFunction();
+    } catch (error) {
+      console.log(error.response.data.msg)
+    }
+  }
+
   return (
     <main className="main-container">
       <div className="form-container">
-        <form className="form">
+        <form className="form" onSubmit={handleEditNote}>
           <div className="form-group">
             <label>Title</label>
             <input
@@ -27,11 +41,11 @@ const EditNote_Card = ({ popupFunctionEdit }) => {
             />
           </div>
           <div className="form-group">
-            <label>Write your content here</label>
+            {/* <label>Write your content here</label> */}
             <textarea
               required=""
               cols="20"
-              rows="200"
+              rows="12"
               id="textarea"
               name="textarea"
               value={notevalues.description}
@@ -47,9 +61,6 @@ const EditNote_Card = ({ popupFunctionEdit }) => {
           </div>
           <button type="submit" className="form-submit-btn">
             Edited & Save
-          </button>
-          <button onClick={() => popupFunctionEdit()} className="form-submit-btn">
-            close
           </button>
         </form>
       </div>

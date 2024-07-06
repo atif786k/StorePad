@@ -22,6 +22,7 @@ const CreateNote_Card = ({ getAllNotesFunction, popupFunctionAdd }) => {
     try {
       const response = await axios.post("/note/create-note", notevalues);
       enqueueSnackbar(response.data.msg, { variant: "success" });
+      popupFunctionAdd();
       getAllNotesFunction();
       console.log(response.data.errorMsg);
       clearAllFields();
@@ -52,14 +53,15 @@ const CreateNote_Card = ({ getAllNotesFunction, popupFunctionAdd }) => {
               />
             </div>
             <div className="form-group">
-              <label>Write your content here</label>
+              {/* <label>Write your content here</label>   */}
               <textarea
                 required=""
                 cols="20"
-                rows="200"
+                rows="12"
                 id="textarea"
                 name="textarea"
                 value={notevalues.description}
+                placeholder="Type your content here..."
                 onChange={(event) =>
                   setNoteValues((prev) => ({
                     ...prev,
@@ -73,7 +75,6 @@ const CreateNote_Card = ({ getAllNotesFunction, popupFunctionAdd }) => {
             <button type="submit" className="form-submit-btn">
               Create
             </button>
-            <button onClick={()=>popupFunctionAdd()} className="form-submit-btn">close</button>
           </form>
         </div>
       </main>

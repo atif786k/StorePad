@@ -9,15 +9,14 @@ const NoteList_Card = (props) => {
           {props.title ? props.title : "Title"}
         </h3>
         <p className="note-list-card-description">
-          {props.description ? props.description : "No content to show"}
+          {props.description ? props.description.slice(0, 120) : "No content to show"}
         </p>
         <time
           className="note-list-card-date"
-          dateTime={new Date().toISOString().split("T")[0]}
         >
           {props.createdDate
             ? props.createdDate
-            : new Date().toISOString().split("T")[0]}
+            : "No Date"}
         </time>
       </div>
     </>

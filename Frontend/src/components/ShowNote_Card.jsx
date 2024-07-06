@@ -1,19 +1,23 @@
 import React from "react";
 import "./style/style.css";
 
-const ShowNote_Card = (props) => {
+const ShowNote_Card = ({ singleNote }) => {
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toUTCString().slice(0, 16);
+  };
   return (
     <>
       <main className="show-note-card">
         <h1 className="show-note-card-title">
-          {props.title ? props.title : "Prayer as an Anchor"}
+          {singleNote.title ? singleNote.title : "Nothing to show"}
         </h1>
         <p className="show-note-card-content">
-          {props.description
-            ? props.description
-            : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam magni eaque, veritatis deleniti reiciendis quis nobis laborum, ex sint officia quibusdam molestias iure obcaecati rem, eveniet consectetur dolore. Animi est ex veritatis quaerat veniam enim eos ad vero, tempore, libero earum, dicta sit modi blanditiis distinctio ab quod architecto eaque et ipsam cupiditate. Necessitatibus nisi et, earum obcaecati asperiores at quod voluptatum, iusto eum perspiciatis eligendi beatae voluptate ipsum velit! Beatae repellat, rem voluptatum ea est vel, error quidem id dolor culpa earum amet quos cumque quod eaque eligendi pariatur cum, facere repellendus delectus unde ipsa voluptatem quam laborum! Consequatur."}
+          {singleNote.description
+            ? singleNote.description
+            : ""}
         </p>
-        <h2>{props.createdDate}</h2>
+        <h2>{singleNote.createdOn ? formatDate(singleNote.createdOn) : ""}</h2>
       </main>
     </>
   );

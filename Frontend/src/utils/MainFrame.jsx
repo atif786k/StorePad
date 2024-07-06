@@ -95,7 +95,7 @@ const MainFrame = () => {
   }, []);
 
   return (
-    <div className="main-frame">
+    <div className="main-frame newFont">
       <Navigation profile={userProfile} />
       <NoteShow
         allNotes={allNotes}
