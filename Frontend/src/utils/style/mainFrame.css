@@ -1,7 +1,6 @@
 .main-frame {
   width: 100%;
   height: 100%;
-  /* border: 10px solid #FF4545; */
   border-radius: 25px;
   display: grid;
   grid-template-rows: 1fr;

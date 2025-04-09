@@ -1,91 +1,138 @@
 const Router = require("express");
 const router = Router();
 const Notes = require("../schema/noteSchema");
-const passport = require("passport");
 
+router.post("/create-note", async (req, res) => {
+  const { title, description, deleteAfter } = req.body;
 
-router.post("/note/create-note", async (req, res) => {
-    const { title, description } = req.body;
-    // const { _id } = req.user;
-
-    if(!title){ return res.status(400).json({ msg: "title is required" }) };
-    if(!description){ return res.status(400).json({ msg: "description is required" }) };
-
-    try {
-        const newNote = new Notes({ userId: req.user._id, title, description });
-        const savedNote = await newNote.save();
-        res.status(200).json({ msg: "New Note Created", savedNote });
-    } catch (error) {
-        res.json({ msg: "Failed to create the note" , errorMsg: error});
+  try {
+    if (!title || !description) {
+      return res
+        .status(400)
+        .json({ msg: "Please provide all the required fields." });
     }
+
+    let deleteAt = null;
+    if (deleteAfter) {
+      deleteAt = new Date(Date.now() + Number(deleteAfter));
+    }
+    const newNote = new Notes({
+      userId: req.user.id,
+      title,
+      description,
+      deleteAt,
+    });
+    await newNote.save();
+    res.status(201).json({
+      success: true,
+      msg: "Note created successfully",
+      newNote,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "Failed to create note",
+      error: error.message,
+    });
+  }
 });
 
-router.get("/note/fetch-note", async (req, res) => {
-    if(!req.user){ return res.status(401).json({ msg: "Not Authenticated" }) };
-
-    try {
-        const notes = await Notes.find({ userId: req.user._id });
-        if(!notes){ return res.json({ msg: "No Notes Found" }) };
-        res.status(200).json({ msg: "Notes Fetched", notes });
-    } catch (error) {
-        res.status(500).json({ msg: "Failed to fetch notes", errorMsg: error });
+router.get("/fetch-note", async (req, res) => {
+  try {
+    const notes = await Notes.find({ userId: req.user.id });
+    if (!notes) {
+      return res.json({ msg: "No Notes Found" });
     }
-
-    // try {
-    //     const notes = await Notes.find({ userId: req.user._id });
-    //     res.status(200).json({ msg: "Notes fetched successfully", notes });
-    // } catch (error) {
-    //     res.status(500).json({ msg: "Failed to fetch notes", error: error.message });
-    // }
+    res.status(200).json({ msg: "Notes Fetched", notes });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "Some error occured while fetching the notes",
+      error: error.message,
+    });
+  }
 });
 
-router.get("/note/fetch-note/:id", async (req, res) => {
-    const { params: { id } } = req;
-    if(!req.user){ return res.status(401).json({ msg: "Not Authenticated" }) };
+router.get("/fetch-note/:id", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
 
-    try {
-        const singleNote = await Notes.findById(id);
-        if(!singleNote){ return res.json({msg: "Note not found"}) };
-        res.status(200).json({msg: "Note found successfully", singleNote})
-    } catch (error) {
-        res.status(500).json({msg:"Some error occured", errorMsg: error});
+  try {
+    const singleNote = await Notes.findById(id);
+    if (!singleNote) {
+      return res.json({ msg: "Note not found" });
     }
-})
+    res.status(200).json({ msg: "Note found successfully", singleNote });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "Some error occured while fetching",
+      error: error.message,
+    });
+  }
+});
 
-router.put("/note/edit-note/:id", async (req, res) => {
-    if(!req.user){return res.status(401).json({msg: "Not Authenticated"})}
-    const { params: { id } } = req;
-    const { title, description } = req.body;
+router.put("/edit-note/:id", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const { title, description, deleteAfter } = req.body;
 
-    if(!title && !description){return res.status(400).json({msg: "No changes done"})};
+  if (!title && !description) {
+    return res.status(400).json({ msg: "No changes done" });
+  }
 
-    try{
-        const note = await Notes.findById(id);
-        if(!note){return res.json({msg: "Note not found"})}
-        if(title){ note.title = title };
-        if(description){ note.description = description };
-
-        const updatedNote = await note.save();
-        res.status(200).json({msg: "Note updated successfully", updatedNote});
+  try {
+    const note = await Notes.findById(id);
+    if (!note) {
+      return res.json({ msg: "Note not found" });
     }
-    catch(error){
-        res.status(500).json({msg: "Some error occured", errorMsg: error.message});
+    if (title) {
+      note.title = title;
+    }
+    if (description) {
+      note.description = description;
     }
 
- })
-
-router.delete("/note/delete-note/:id", async (req, res) => {
-    const { params: { id } } = req;
-    if(!req.user){ return res.status(401).json({msg: "Not Authenticated"}) };
-
-    try {
-        const findNote = await Notes.findById(id);
-        if(!findNote){return res.json({msg: "Note not found"})};
-        const deleteNote = await Notes.deleteOne({_id: id, userId: req.user._id});
-        res.status(200).json({msg: "Note deleted successfully", deleteNote});
-    } catch (error) {
-        res.status(500).json({msg: "Some error occured", errorMsg: error});
+    let deleteAt = null;
+    if (deleteAfter) {
+      deleteAt = new Date(Date.now() + Number(deleteAfter));
+      note.deleteAt = deleteAt;
     }
-})
+
+    const updatedNote = await note.save();
+    res
+      .status(200)
+      .json({ success: true, msg: "Note updated successfully", updatedNote });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "Some error occured while updating the note",
+      error: error.message,
+    });
+  }
+});
+
+router.delete("/delete-note/:id", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  try {
+    const findNote = await Notes.findById(id);
+    if (!findNote) {
+      return res.json({ msg: "Note not found" });
+    }
+    await Notes.deleteOne({ _id: id, userId: req.user.id });
+    res.status(200).json({ success: true, msg: "Note deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "Some error occured while deleting the note.",
+      error: error.message,
+    });
+  }
+});
 
 module.exports = router;

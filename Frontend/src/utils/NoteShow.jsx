@@ -30,6 +30,7 @@ const NoteShow = ({ allNotes, getSingleNote, popupFunctionAdd }) => {
                       <NoteList_Card
                         title={e.title}
                         description={e.description}
+                        favorite={e.favorite}
                         createdDate={formatDate(e.createdOn)}
                       />
                     </div>

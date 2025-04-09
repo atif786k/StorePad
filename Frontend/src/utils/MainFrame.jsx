@@ -14,6 +14,7 @@ const MainFrame = () => {
   const [singleNote, setSingleNote] = useState([]);
   const [isPopupVisibleAdd, setIsPopupVisibleAdd] = useState(false);
   const [isPopupVisibleEdit, setIsPopupVisibleEdit] = useState(false);
+  const [favorite, setFavorite] = useState(true);
 
   const [userProfile, setUserProfile] = useState({
     user_id: "",
@@ -47,7 +48,7 @@ const MainFrame = () => {
 
   const getAllNotes = async () => {
     try {
-      const response = await axios.get("/note/fetch-note");
+      const response = await axios.get("/api/notes/fetch-note");
       if (response.data && response.data.notes) {
         setAllNotes(response.data.notes);
       }
@@ -58,7 +59,7 @@ const MainFrame = () => {
 
   const getSingleNote = async (_id) => {
     try {
-      const response = await axios.get(`/note/fetch-note/${_id}`);
+      const response = await axios.get(`/api/notes/fetch-note/${_id}`);
       if (response.data && response.data.singleNote) {
         setSingleNote(response.data.singleNote);
       }
@@ -70,14 +71,14 @@ const MainFrame = () => {
   const handleDeleteNote = async () => {
     try {
       const response = await axios.delete(
-        `/note/delete-note/${singleNote._id}`
+        `/api/notes/delete-note/${singleNote._id}`
       );
       console.log(response.data.msg);
       enqueueSnackbar(response.data.msg, { variant: "success" });
       getAllNotes();
     } catch (error) {
       console.log(error.response.data.msg);
-    }
+    } 
   };
 
   const handlePopupAdd = () => {
@@ -87,6 +88,19 @@ const MainFrame = () => {
   const handlePopupEdit = () => {
     setIsPopupVisibleEdit(!isPopupVisibleEdit);
   };
+
+  const handleAddToFav = async () => {
+    setFavorite(!favorite);
+    console.log(favorite);
+    try {
+      const response = await axios.patch(`/api/notes/update-note/${singleNote._id}`, {favoriteValue: favorite});
+      console.log(response.data.updateNote);
+      enqueueSnackbar(response.data.msg, { variant: "success" });
+      getAllNotes();
+    } catch (error) {
+      console.log(error.response.data.msg);
+    }
+  }
 
   useEffect(() => {
     getAllNotes();
@@ -106,11 +120,13 @@ const MainFrame = () => {
         singleNote={singleNote}
         isPopupVisibleAdd={isPopupVisibleAdd}
         isPopupVisibleEdit={isPopupVisibleEdit}
+        favorite={favorite}
         logOutFunction={handleLogOut}
         deleteFunction={handleDeleteNote}
         getNotesFunction={getAllNotes}
         popupFunctionAdd={handlePopupAdd}
         popupFunctionEdit={handlePopupEdit}
+        addToFavFunction={handleAddToFav}
       />
     </div>
   );

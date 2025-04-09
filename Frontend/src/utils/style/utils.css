@@ -1,9 +1,12 @@
 /* Navigation Styling:- */
 .nav-container {
+  /* padding: 18px; */
   font-size: 18px;
+  border-right: 1px solid rgb(55, 55, 55);
 }
 .logo-container {
-  padding: 18px;
+  padding: 13.5px;
+  border-bottom: 1px solid rgb(55, 55, 55);
 }
 .logo-container span {
   font-size: 36px;
@@ -11,8 +14,6 @@
 }
 .profile-container {
   padding: 18px;
-  border: 2px solid rgb(55, 55, 55);
-  border-radius: 25px;
   display: flex;
   align-items: center;
 }
@@ -31,8 +32,7 @@
 }
 .quick-links {
   padding: 18px;
-  border: 2px solid rgb(55, 55, 55);
-  border-radius: 25px;
+  border-top: 1px solid rgb(55,55,55);
 }
 .links-heading {
   padding-bottom: 8px;
@@ -63,16 +63,14 @@
 
 /* Notes Show styling:- */
 .notes-show-container {
-  /* border: 1px solid black; */
-  border-radius: 25px;
   height: 100%;
-  /* overflow-y: hidden; */
 }
 .search-notes {
   padding: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid rgb(55, 55, 55);
 }
 .search-icon {
   margin-left: 12px;
@@ -86,7 +84,7 @@
   padding-left: 3rem;
   border-radius: 12px;
   outline: none;
-  background-color: rgb(37, 37, 37);
+  background-color: #23272c;
   color: white;
   transition: 0.5s ease;
 }
@@ -114,7 +112,7 @@
   padding: 18px;
 }
 .scroll-container {
-  height: 540px;
+  height: 580px;
   overflow-y: scroll;
 }
 ::-webkit-scrollbar {
@@ -136,13 +134,14 @@
 /* Notes Details Styling:- */
 .note-detail-container {
   width: 100%;
-  border-radius: 25px;
   position: relative;
+  border-left: 1px solid rgb(55, 55, 55);
 }
 .note-tools {
   padding: 18px;
   display: flex;
   justify-content: flex-end;
+  border-bottom: 1px solid rgb(55, 55, 55);
 }
 .tool-btns {
   padding: 0px 8px;
@@ -151,7 +150,7 @@
   margin-left: 12px;
   border: 2px solid transparent;
   border-radius: 12px;
-  background-color: rgb(37, 37, 37);
+  background-color: #23272c;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,4 +175,8 @@
 }
 .log-out-style {
   margin-right: 8px;
+}
+.function-container{
+  height: 85vh;
+  overflow-y: scroll;
 }

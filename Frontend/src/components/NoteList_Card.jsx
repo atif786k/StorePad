@@ -1,5 +1,6 @@
 import React from "react";
-import "./style/style.css"
+import "./style/style.css";
+import { FaStar } from "react-icons/fa";
 
 const NoteList_Card = (props) => {
   return (
@@ -9,15 +10,17 @@ const NoteList_Card = (props) => {
           {props.title ? props.title : "Title"}
         </h3>
         <p className="note-list-card-description">
-          {props.description ? props.description.slice(0, 120) : "No content to show"}
+          {props.description
+            ? props.description.slice(0, 120)
+            : "No content to show"}
         </p>
-        <time
-          className="note-list-card-date"
-        >
-          {props.createdDate
-            ? props.createdDate
-            : "No Date"}
-        </time>
+        <div className="flex items-center">
+          <time className="note-list-card-date">
+            {props.createdDate ? props.createdDate : "No Date"}
+          </time>
+          {props.favorite ? <FaStar className="ml-4 text-[18px]"/> : ""}
+          
+        </div>
       </div>
     </>
   );

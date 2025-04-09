@@ -11,7 +11,7 @@ const EditNote_Card = ({ popupFunctionEdit, noteData, getNotesFunction }) => {
 
   const handleEditNote = async () => {
     try {
-      const response = await axios.put(`/note/edit-note/${noteData._id}`, notevalues);
+      const response = await axios.put(`/api/notes/edit-note/${noteData._id}`, notevalues);
       console.log(response.data.msg);
       popupFunctionEdit();
       getNotesFunction();

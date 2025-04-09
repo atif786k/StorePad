@@ -5,8 +5,8 @@
   padding: 4px;
   height: 100vh;
   width: 100vw;
-  background-color: #0f0f0f;
-  color: #cdcdcd;
+  background-color: black;
+  color: white;
 }
 .newFont {
   font-family: "Noto Sans", sans-serif;

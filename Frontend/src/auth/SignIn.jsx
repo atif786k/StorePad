@@ -26,7 +26,7 @@ const SignIn = () => {
   const handleSignForm = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("/auth/register", fieldsValues);
+      const response = await axios.post("/api/auth/user-register", fieldsValues);
       // enqueueSnackbar(response.data.msg, { varient: "success" });
       console.log(response.data.msg);
       navigate("/login");

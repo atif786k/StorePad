@@ -12,13 +12,13 @@ const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [errVal, setErrVal] = useState("");
   const [loginValues, setLoginValues] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
   const clearAllFields = () => {
     setLoginValues({
-      username: "",
+      email: "",
       password: "",
     });
   };
@@ -26,7 +26,7 @@ const Login = () => {
   const handleLoginForm = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("/auth/login", loginValues);
+      const response = await axios.post("/api/auth/user-login", loginValues);
       enqueueSnackbar(response.data.msg, { variant: "success" });
       // console.log(response.data.userProfile);
       navigate("/main");
@@ -58,15 +58,15 @@ const Login = () => {
             <input
               className="login-input-fields"
               type="text"
-              name="username"
-              placeholder="username"
+              name="email"
+              placeholder="email"
               onChange={(event) =>
                 setLoginValues((prev) => ({
                   ...prev,
-                  username: event.target.value,
+                  email: event.target.value,
                 }))
               }
-              value={loginValues.username}
+              value={loginValues.email}
             />
           </div>
 

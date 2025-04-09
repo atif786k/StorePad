@@ -20,7 +20,7 @@ const CreateNote_Card = ({ getAllNotesFunction, popupFunctionAdd }) => {
     event.preventDefault();
     console.log(notevalues);
     try {
-      const response = await axios.post("/note/create-note", notevalues);
+      const response = await axios.post("/api/notes/create-note", notevalues);
       enqueueSnackbar(response.data.msg, { variant: "success" });
       popupFunctionAdd();
       getAllNotesFunction();
