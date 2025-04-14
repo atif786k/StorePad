@@ -106,4 +106,37 @@ router.post("/user-login", async (req, res) => {
   }
 });
 
+router.delete("/user-logout", async (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          msg: "Error logging out",
+          error: err.message,
+        });
+      }
+
+      // Clear cookies AFTER session is destroyed
+      res.clearCookie("connect.sid", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
+      res.clearCookie("access_token");
+      res.clearCookie("refresh_token");
+
+      return res.status(200).json({
+        success: true,
+        msg: "Logout successful",
+      });
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "An error occurred while logging out",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;

@@ -150,7 +150,7 @@
 
 /* Note List Card styling:- */
 .note-list-card {
-  margin-top: 18px;
+  margin-bottom: 18px;
   padding: 18px;
   border: 2px solid #33383f;
   border-radius: 25px;
@@ -161,12 +161,12 @@
   /* border: 2px solid #f4f3f3; */
 }
 .note-list-card:hover {
-  background-color: rgb(255, 69, 69, 0.1);
-  border-color: #ff4545;
+  /* background-color: rgb(255, 69, 69, 0.1); */
+  border-color: #1f75fe;
   color: white;
 }
 .note-list-card:hover .note-list-card-date {
-  background-color: rgb(255, 69, 69);
+  /* background-color: rgb(255, 69, 69); */
 }
 .note-list-card-title {
   font-size: 18px;

@@ -1,76 +1,53 @@
 /* Navigation Styling:- */
-.nav-container {
-  /* padding: 18px; */
-  font-size: 18px;
-  border-right: 1px solid rgb(55, 55, 55);
+.sidebar-div {
+  padding: 40px 24px;
+  border-right: 1px solid gray;
 }
-.logo-container {
-  padding: 13.5px;
-  border-bottom: 1px solid rgb(55, 55, 55);
-}
-.logo-container span {
-  font-size: 36px;
-  /* text-shadow: -6px 6px 0px #ff4545; */
-}
-.profile-container {
-  padding: 18px;
+.profile-details {
   display: flex;
   align-items: center;
 }
-.profile-container span {
-  margin-left: 18px;
-  display: flex;
-  letter-spacing: -0.02rem;
-  line-height: 20px;
+.details {
+  margin-left: 12px;
 }
-.username-span {
-  font-size: 24px;
-  font-weight: 600;
+.details h4 {
+  font-size: 18px;
 }
-.email-span {
-  font-size: 16px;
-}
-.quick-links {
-  padding: 18px;
-  border-top: 1px solid rgb(55,55,55);
-}
-.links-heading {
-  padding-bottom: 8px;
+.quick-links h2 {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  color: #ff4545;
+  color: #1f75fe;
   letter-spacing: 0.02rem;
 }
 .quick-links ul li {
-  padding: 4px 0px;
+  padding: 2px 0px;
   display: flex;
   align-items: center;
   letter-spacing: -0.02rem;
-  cursor: pointer;
   transition: all ease-in 0.2s;
+  font-size: 18px;
+  cursor: pointer;
 }
 .quick-links ul li:hover {
-  color: #ff4545;
+  color: #1f75fe;
 }
 .nav-icons-style {
   margin-right: 8px;
-  font-size: 24px;
 }
 .nav-icons-style:hover {
   color: #cdcdcd;
 }
 
 /* Notes Show styling:- */
-.notes-show-container {
+.notes-list-div {
   height: 100%;
+  padding: 40px 24px;
 }
-.search-notes {
-  padding: 18px;
+.search-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(55, 55, 55);
 }
 .search-icon {
   margin-left: 12px;
@@ -92,39 +69,36 @@
   height: 45px;
   width: 45px;
   margin-left: 12px;
-  border: 2px solid #ff4545;
+  border: 2px solid #1f75fe;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ff4545;
+  background-color: #1f75fe;
   color: white;
   transition: all ease-in 0.2s;
 }
 .create-btn:hover {
   background-color: transparent;
-  color: #ff4545;
+  color: #1f75fe;
 }
 .show-icons-style {
   font-size: 24px;
 }
-.notes-list {
-  padding: 18px;
+.notes-mapping-div h4 {
+  margin-left: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
-.scroll-container {
-  height: 580px;
+.mapping-container {
+  height: 495px;
   overflow-y: scroll;
 }
 ::-webkit-scrollbar {
   width: 0px;
 }
-.notes-list-title {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.02rem;
-}
-.scroll-container h4 {
-  margin-top: 100px;
+.mapping-container h4 {
   text-align: center;
   font-size: 32px;
   font-weight: 900;
@@ -133,15 +107,45 @@
 
 /* Notes Details Styling:- */
 .note-detail-container {
-  width: 100%;
-  position: relative;
-  border-left: 1px solid rgb(55, 55, 55);
+  height: 100%;
+  padding: 40px 24px;
+  border-left: 1px solid gray;
 }
-.note-tools {
-  padding: 18px;
+.writting-tools {
+  width: 100%;
+  height: 45px;
+  background-color: #23272c;
+  border-radius: 8px;
+}
+.title-btns-div h2 {
+  font-size: 24px;
+  font-size: 500;
+}
+.btns {
   display: flex;
-  justify-content: flex-end;
-  border-bottom: 1px solid rgb(55, 55, 55);
+}
+.update-btn {
+  padding: 6px 12px;
+  border: 2px solid #1f75fe;
+  border-radius: 8px;
+  background-color: #1f75fe;
+  transition: all ease-in 0.2s;
+}
+.update-btn:hover {
+  background-color: transparent;
+  color: #1f75fe;
+}
+.cancel-btn {
+  padding: 6px 12px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-color: #23272c;
+  box-shadow: 0px 0px 4px #0f0f0f, 0px 0px 4px #0f0f0f;
+  transition: all ease-in 0.2s;
+}
+.cancel-btn:hover {
+  border-color: #1f75fe;
+  color: #1f75fe;
 }
 .tool-btns {
   padding: 0px 8px;
@@ -158,25 +162,31 @@
   transition: all ease-in 0.2s;
 }
 .tool-btns:hover {
-  border-color: #ff4545;
-  color: #ff4545;
+  border-color: #1f75fe;
+  color: #1f75fe;
 }
 .tool-icons-style {
-  /* margin-right: 8px; */
   font-size: 24px;
 }
 .styling-btn {
-  background-color: #ff4545;
+  background-color: #1f75fe;
   color: white;
 }
 .styling-btn:hover {
   background-color: transparent;
-  color: #ff4545;
+  color: #1f75fe;
 }
-.log-out-style {
-  margin-right: 8px;
+
+/* styling when is editing is true */
+.isEditing-title-div input {
+  background-color: transparent;
+  font-size: 24px;
+  outline: none;
 }
-.function-container{
-  height: 85vh;
-  overflow-y: scroll;
+.isEditing-para-area {
+  width: 100%;
+  background-color: transparent;
+  padding: 12px 0px;
+  font-size: 18px;
+  outline: none;
 }

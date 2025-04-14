@@ -17,7 +17,7 @@ const authenticate = async (req, res, next) => {
 
   if (validAccessToken && validRefreshToken) {
     console.log("Both token are valid. Authorizing user");
-    req.user = validateAccessToken;
+    req.user = validAccessToken;
     return next();
   }
   if (!validAccessToken && validRefreshToken) {

@@ -2,11 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton+SC&display=swap");
 
 .app-container {
-  padding: 4px;
   height: 100vh;
   width: 100vw;
   background-color: black;
   color: white;
+  /* overflow: hidden; */
 }
 .newFont {
   font-family: "Noto Sans", sans-serif;

@@ -5,6 +5,6 @@ const authRouter = require("./authRoutes");
 const noteRouter = require("./notes");
 
 router.use("/api/auth", authRouter);
-router.use("/api/notes", noteRouter);
+router.use("/api/notes", authenticate, noteRouter);
 
 module.exports = router;
