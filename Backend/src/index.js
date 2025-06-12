@@ -8,11 +8,14 @@ const passport = require("passport");
 const routes = require("./routes/index");
 const cors = require("cors");
 const { connectToDataBase } = require("./db");
+const MongoStore = require("connect-mongo");
 require("./utils/cronAutoDelete");
 
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
+
+const mongoURI = `mongodb+srv://${mongoUsername}:${mongoPassword}@${mongoHost}/?retryWrites=true&w=majority&appName=${mongoAppName}`;
 
 app.use(express.json());
 app.use(
@@ -28,9 +31,12 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: mongoURI,
+    }),
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: true,
       maxAge: 60 * 60 * 1000,
     },
   })
