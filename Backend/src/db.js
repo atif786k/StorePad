@@ -3,21 +3,23 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const mongoUser = process.env.MONGO_USER;
-const mongoPort = process.env.MONGO_PORT;
-const mongoDB = process.env.MONGO_DB;
+const mongoUsername = process.env.MONGO_DB_USERNAME;
+const mongoPassword = process.env.MONGO_DB_PASSWORD;
+const mongoHost = process.env.MONGO_DB_HOST;
+const mongoAppName = process.env.MONGO_DB_APP_NAME;
 
-if (!mongoUser || !mongoPort || !mongoDB) {
+if (!mongoUsername || !mongoPassword || !mongoHost || !mongoAppName) {
   console.log("Missing required MongoDB environment variables.");
   process.exit(1);
 }
 
-const mongoURI = `mongodb://${mongoUser}:${mongoPort}/${mongoDB}`;
+// const mongoURI = `mongodb://${mongoUser}:${mongoPort}/${mongoDB}`;
+const mongoURI = `mongodb+srv://${mongoUsername}:${mongoPassword}@${mongoHost}/?retryWrites=true&w=majority&appName=${mongoAppName}`;
 
 const connectToDataBase = async () => {
   try {
     await mongoose.connect(mongoURI);
-    console.log("MongoDB connection established.");
+    console.log("MongoDB Atlas connection established.");
   } catch (error) {
     console.error("Error connecting to MongoDB: ", error.message);
     process.exit(1);

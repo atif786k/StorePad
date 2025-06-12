@@ -8,7 +8,7 @@ const validateAccessToken = async (token) => {
       return null;
     }
     const verifiedAccessToken = await verifyToken(token);
-    console.log("Access token verified successfully.");
+    // console.log("Access token verified successfully.");
     return verifiedAccessToken;
   } catch (error) {
     console.log("Error validating access token: ", error);
@@ -32,7 +32,7 @@ const validateRefreshToken = async (token) => {
       console.error("User not found for the provided refresh token.");
       return null;
     }
-    console.log("Refresh token verified successfully.");
+    // console.log("Refresh token verified successfully.");
     return verifiedRefreshToken;
   } catch (error) {
     console.log("Error validating refresh token: ", error);

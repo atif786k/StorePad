@@ -30,7 +30,7 @@ const verifyToken = (token) => {
         console.error("Token verification failed: ", err.message);
         return reject(new Error("Token verification failed."));
       } else {
-        console.log("Token verified successfully.");
+        // console.log("Token verified successfully.");
         return resolve(payload);
       }
     });
