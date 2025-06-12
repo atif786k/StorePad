@@ -15,7 +15,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-const mongoURI = `mongodb+srv://${mongoUsername}:${mongoPassword}@${mongoHost}/?retryWrites=true&w=majority&appName=${mongoAppName}`;
+const mongoURI = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_HOST}/?retryWrites=true&w=majority&appName=${process.env.MONGO_DB_APP_NAME}`;
 
 app.use(express.json());
 app.use(
