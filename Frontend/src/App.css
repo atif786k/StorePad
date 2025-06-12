@@ -7,14 +7,15 @@
   background-color: black;
   color: white;
   font-family: "Roboto", sans-serif;
+  transition: all ease-in 0.3s;
 }
 .logo-font {
-  /* font-family: "Comforter", cursive; */
   font-family: "Oswald", sans-serif;
   font-weight: 400;
   font-size: 32px;
   color: white;
   margin-left: 4px;
+  letter-spacing: 0.05rem;
 }
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;

@@ -101,7 +101,7 @@ const MainFrame = () => {
     }
     const intervalId = setInterval(() => {
       getAllNotes();
-    }, 60000 * 2);
+    }, 60000 * 1);
     return () => clearInterval(intervalId);
   }, [user, navigate, activeView]);
 
