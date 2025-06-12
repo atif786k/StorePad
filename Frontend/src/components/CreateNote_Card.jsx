@@ -35,12 +35,12 @@ const CreateNote_Card = ({ fetchAllNotes, closeCreateNoteCard }) => {
     <>
       <form
         onSubmit={handleNoteCreation}
-        className="max-w-3xl mx-4 p-8 bg-[#141517] rounded-lg space-y-4 md:w-[560px]"
+        className="max-w-3xl mx-4 p-8 bg-[#191919] transition-colors duration-200 border border-[#252525] rounded-[1rem] space-y-4 md:w-[800px]"
       >
         <h3 className="text-2xl font-semibold mb-4">Create a Note</h3>
 
         <div>
-          <label className="block font-semibold text-[18px] text-[#777585]">
+          <label className="block font-semibold text-md text-[#777585] mb-2">
             Title <span className="text-red-500">*</span>
           </label>
           <input
@@ -49,18 +49,19 @@ const CreateNote_Card = ({ fetchAllNotes, closeCreateNoteCard }) => {
             id="title"
             type="text"
             value={notevalues.title}
+            placeholder="Enter your title here..."
             onChange={(event) =>
               setNoteValues((prev) => ({
                 ...prev,
                 title: event.target.value,
               }))
             }
-            className="w-full p-2 bg-transparent border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1f75fe]"
+            className="w-full p-2 bg-transparent transition-colors duration-200 border border-[#252525] rounded-lg focus:ring-1 focus:ring-[#1f75fe] outline-none placeholder:text-[#777585]"
           />
         </div>
 
         <div>
-          <label className="block font-semibold text-[18px] text-[#777585]">
+          <label className="block font-semibold text-md text-[#777585] mb-2">
             Auto Delete (Optional)
           </label>
           <select
@@ -71,7 +72,7 @@ const CreateNote_Card = ({ fetchAllNotes, closeCreateNoteCard }) => {
                 deleteAfter: event.target.value,
               }))
             }
-            className="w-full p-2 bg-[#141517] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1f75fe]"
+            className="w-full p-2 bg-transparent transition-colors duration-200 border border-[#252525] rounded-lg focus:ring-1 focus:ring-[#1f75fe] outline-none placeholder:text-[#777585]"
           >
             <option value="">Auto-Delete Note Timer</option>
             <option value={60000}>After 1 minute</option>
@@ -82,7 +83,7 @@ const CreateNote_Card = ({ fetchAllNotes, closeCreateNoteCard }) => {
         </div>
 
         <div>
-          <label className="block font-semibold text-[18px] text-[#777585]">
+          <label className="block font-semibold text-md text-[#777585] mb-2">
             Description <span className="text-red-500">*</span>
           </label>
           <textarea
@@ -99,7 +100,7 @@ const CreateNote_Card = ({ fetchAllNotes, closeCreateNoteCard }) => {
                 description: event.target.value,
               }))
             }
-            className="w-full p-2 bg-transparent border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1f75fe]"
+            className="w-full p-2 bg-transparent transition-colors duration-200 border border-[#252525] rounded-lg focus:ring-1 focus:ring-[#1f75fe] outline-none placeholder:text-[#777585]"
           >
             {" "}
           </textarea>

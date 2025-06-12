@@ -120,7 +120,7 @@ const SignIn = () => {
           </button>
           <h4 className="text-[#99999b] text-[16px]">
             Already have an account?{" "}
-            <Link to="/login" className="font-bold">
+            <Link to="/login" className="font-bold hover:text-[#1f75fe]">
               Login
             </Link>
           </h4>

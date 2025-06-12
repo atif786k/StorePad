@@ -2,17 +2,26 @@ import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
-import "../utils/style/utils.css";
-import axios from "../axios";
 import { enqueueSnackbar } from "notistack";
+import axios from "../axios";
 
-const NoteDetails = ({ singleNote, fetchAllNotes }) => {
+const NoteDetails = ({
+  singleNote,
+  clearNoteField,
+  fetchAllNotes,
+  favouriteNotes,
+  toggleFavouriteNotes,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [noteData, setNoteData] = useState({
     title: "",
     description: "",
     deleteAfter: "", // time in milliseconds
   });
+
+  const isFavourite = favouriteNotes.some(
+    (note) => note._id === singleNote._id
+  );
 
   useEffect(() => {
     setNoteData({
@@ -30,8 +39,12 @@ const NoteDetails = ({ singleNote, fetchAllNotes }) => {
       );
       fetchAllNotes();
       setIsEditing(false);
+      clearNoteField();
+      enqueueSnackbar("Note updated successfully", { variant: "success" });
     } catch (error) {
-      console.log(error.response?.data?.msg);
+      enqueueSnackbar(error.response?.data?.msg || "Failed to update note", {
+        variant: "error",
+      });
     }
   };
 
@@ -41,17 +54,21 @@ const NoteDetails = ({ singleNote, fetchAllNotes }) => {
         `/api/notes/delete-note/${singleNote?._id}`
       );
       fetchAllNotes();
+      clearNoteField();
+      enqueueSnackbar("Note deleted successfully", { variant: "success" });
     } catch (error) {
-      console.log(error.response?.data?.msg);
+      enqueueSnackbar(error.response?.data?.msg || "Failed to delete note", {
+        variant: "error",
+      });
     }
   };
 
   return (
-    <div className="note-detail-container space-y-10">
-      <div className="note-writting-div space-y-2">
+    <div className="flex-1 p-6 bg-[#0f0f0f] min-w-0">
+      <div className="max-w-full mx-auto h-[calc(100vh-120px)] flex flex-col">
         {isEditing ? (
-          <>
-            <div className="isEditing-title-div flex items-start justify-between">
+          <div className="space-y-6 flex-1 overflow-y-auto">
+            <div className="flex items-start justify-between">
               <input
                 type="text"
                 value={noteData.title}
@@ -59,23 +76,28 @@ const NoteDetails = ({ singleNote, fetchAllNotes }) => {
                   setNoteData((prev) => ({ ...prev, title: e.target.value }))
                 }
                 placeholder="Title..."
+                className="text-2xl font-semibold bg-transparent pb-4 border-b border-[#252525] focus:border-[#1f75fe] focus:outline-none w-fit text-[#c0c0c3] placeholder:text-[#99999b]"
               />
-              <div className="btns space-x-2">
+              <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="cancel-btn"
+                  className="px-4 py-2 text-sm font-medium text-[#c0c0c3] bg-[#252525] rounded-md hover:bg-[#252525] focus:outline-none focus:ring-2 focus:ring-[#191919]"
                 >
                   Cancel
                 </button>
-                <button className="update-btn" onClick={handleUpdateNote}>
+                <button
+                  onClick={handleUpdateNote}
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#1f75fe] rounded-md hover:bg-[#1f75fe]/90 focus:outline-none focus:ring-2 focus:ring-[#1f75fe]"
+                >
                   Update
                 </button>
               </div>
             </div>
 
-            {/* Auto-delete dropdown */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-[18px]">Auto-delete after</label>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-[#99999b]">
+                Auto-delete after
+              </label>
               <select
                 value={noteData.deleteAfter}
                 onChange={(e) =>
@@ -84,7 +106,7 @@ const NoteDetails = ({ singleNote, fetchAllNotes }) => {
                     deleteAfter: e.target.value,
                   }))
                 }
-                className="py-1 px-2 rounded-md bg-[#141517] w-fit"
+                className="w-full px-3 py-3 bg-[#191919] border border-[#252525] rounded-[1rem] focus:outline-none focus:ring-1 focus:ring-[#1f75fe] text-[#99999b]"
               >
                 <option value="">Don't auto-delete</option>
                 <option value={60000}>After 1 minute</option>
@@ -103,36 +125,50 @@ const NoteDetails = ({ singleNote, fetchAllNotes }) => {
                 }))
               }
               placeholder="Your description..."
-              className="isEditing-para-area"
-              rows="16"
-            ></textarea>
-          </>
+              className="whitespace-pre-wrap w-full h-[calc(100vh-300px)] p-4 bg-[#191919] border border-[#252525] rounded-[1rem] focus:outline-none focus:ring-1 focus:ring-[#1f75fe] resize-none text-[#c0c0c3] custom-scrollbar custom-scrollbar-thumb placeholder:text-[#99999b]"
+            />
+          </div>
         ) : (
-          <>
-            <div className="title-btns-div flex items-start justify-between">
-              <h2>{singleNote?.title || "Open a note"}</h2>
-              <div className="btns">
-                <button className="like-btn tool-btns">
-                  <FaStar className="tool-icons-style" />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex items-start justify-between mb-6">
+              <h2 className="text-2xl font-semibold text-white break-words pr-4">
+                {singleNote?.title || "Open a note"}
+              </h2>
+              <div className="flex space-x-2 flex-shrink-0">
+                <button
+                  onClick={() => toggleFavouriteNotes(singleNote._id)}
+                  className="p-2 transition-colors duration-200"
+                >
+                  <FaStar
+                    className={`text-xl ${
+                      isFavourite
+                        ? "text-pink-600"
+                        : "text-white hover:text-[#1f75fe]"
+                    }`}
+                  />
                 </button>
                 <button
                   onClick={() =>
                     singleNote?._id ? setIsEditing(true) : setIsEditing(false)
                   }
-                  className="edit-btn tool-btns"
+                  className="p-2 text-white hover:text-[#1f75fe] transition-colors duration-200"
                 >
-                  <FiEdit2 className="tool-icons-style" />
+                  <FiEdit2 className="text-xl" />
                 </button>
                 <button
                   onClick={handleDeleteNote}
-                  className="delete-btn tool-btns"
+                  className="p-2 text-white hover:text-red-400 transition-colors duration-200"
                 >
-                  <MdOutlineDelete className="tool-icons-style" />
+                  <MdOutlineDelete className="text-xl" />
                 </button>
               </div>
             </div>
-            <p className="text-[18px] py-3">{singleNote?.description || ""}</p>
-          </>
+            <div className="flex-1 overflow-y-auto prose prose-invert max-w-none custom-scrollbar custom-scrollbar-thumb">
+              <p className="text-[#c0c0c3] whitespace-pre-wrap break-words">
+                {singleNote?.description || ""}
+              </p>
+            </div>
+          </div>
         )}
       </div>
     </div>

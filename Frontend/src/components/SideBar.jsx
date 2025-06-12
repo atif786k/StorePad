@@ -1,40 +1,52 @@
 import React from "react";
 import { CiStickyNote } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa";
-import "../utils/style/utils.css";
+import { CiUser } from "react-icons/ci";
 import { useUserContext } from "../context/UserContext";
 
-const SideBar = () => {
+const SideBar = ({ activeView, setActiveView }) => {
   const { user } = useUserContext();
   const username = user?.authenticatedUser?.username || "User";
   const email = user?.authenticatedUser?.email || "user@example.com";
+
   return (
-    <>
-      <div className="sidebar-div space-y-10">
-        <div className="profile-details">
-          <figure>
-            <img src="/images/man.png" width="50px" alt="" />
-          </figure>
-          <div className="details">
-            <h4>{username}</h4>
-            <h4>{email}</h4>
-          </div>
+    <div className="w-64 bg-[#191919] border-r border-[#252525] p-6">
+      <div className="flex items-center space-x-4 mb-8">
+        <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center overflow-hidden relative">
+          <CiUser className="w-10 h-10 absolute -bottom-2" />
         </div>
-        <div className="quick-links space-y-2">
-          <h2>Quick Links</h2>
-          <ul>
-            <li>
-              <CiStickyNote className="nav-icons-style" />
-              All Notes
-            </li>
-            <li>
-              <FaRegStar className="nav-icons-style" />
-              Favorites
-            </li>
-          </ul>
+        <div>
+          <h4 className="text-lg font-semibold text-white">{username}</h4>
+          <p className="text-sm text-[#c0c0c3]">{email}</p>
         </div>
       </div>
-    </>
+
+      <div className="space-y-4">
+        <h2 className="text-xs font-semibold text-[#1f75fe] uppercase tracking-wider">
+          Quick Links
+        </h2>
+        <nav>
+          <button
+            onClick={() => setActiveView("all")}
+            className={`mb-1 w-full flex items-center space-x-3 py-1 rounded-lg text-[#c0c0c3] hover:bg-[#0f0f0f] hover:text-white transition-all ease-in duration-100 ${
+              activeView === "all" ? "bg-black text-white px-2" : ""
+            }`}
+          >
+            <CiStickyNote className="w-5 h-5" />
+            <span>All Notes</span>
+          </button>
+          <button
+            onClick={() => setActiveView("favorites")}
+            className={`mb-1 w-full flex items-center space-x-3 py-1 rounded-lg text-[#c0c0c3] hover:bg-[#0f0f0f] hover:text-white transition-all ease-in duration-100 ${
+              activeView === "favorites" ? "bg-black text-white px-2" : ""
+            }`}
+          >
+            <FaRegStar className="w-5 h-5" />
+            <span>Favorites</span>
+          </button>
+        </nav>
+      </div>
+    </div>
   );
 };
 

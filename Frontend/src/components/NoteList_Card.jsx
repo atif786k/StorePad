@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./style/style.css";
 import { FaStar } from "react-icons/fa";
 import { TiPin } from "react-icons/ti";
 
@@ -36,43 +35,46 @@ const NoteList_Card = (props) => {
   };
 
   useEffect(() => {
-    calculateCountdown(); // Initial calculation
-
-    const interval = setInterval(() => {
-      calculateCountdown();
-    }, 60000); // update every minute
-
+    calculateCountdown();
+    const interval = setInterval(calculateCountdown, 60000);
     return () => clearInterval(interval);
   }, [props.deleteAt]);
 
+  const truncateText = (text, maxLength) => {
+    if (!text) return "No content";
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + "...";
+  };
+
   return (
-    <>
-      <div className="note-list-card">
-        {props.deleteAt && (
-          <span className="flex items-center text-red-500 font-medium mb-1">
-            {countdown}
-            <TiPin className="ml-2 text-[20px]" />
-          </span>
-        )}
-        <div className="flex items-start justify-between">
-          <h3 className="note-list-card-title">
-            {props.title ? props.title : "Title"}
-          </h3>
-          <FaStar />
+    <div className="bg-[#191919] rounded-[1rem] p-4 hover:bg-[#0f0f0f] transition-colors duration-200 border border-[#252525]">
+      {props.deleteAt && (
+        <div className="flex items-center text-red-400 text-sm font-medium mb-2">
+          <span>{countdown}</span>
+          <TiPin className="ml-2 w-4 h-4" />
         </div>
-        <p className="note-list-card-description">
-          {props.description
-            ? props.description.slice(0, 120)
-            : "No content to show"}
-        </p>
-        <div className="flex items-center">
-          <time className="note-list-card-date">
-            {props.createdDate ? formatDate(props.createdDate) : "No Date"}
-          </time>
-          {props.favorite ? <FaStar className="ml-4 text-[18px]" /> : ""}
-        </div>
+      )}
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="text-lg font-semibold text-white line-clamp-1">
+          {props.title || "Untitled Note"}
+        </h3>
+        <FaStar
+          className={`text-lg ${
+            props.activeView === "favorites" || props.isFavorite
+              ? "text-pink-600"
+              : "text-white"
+          } transition-colors duration-200`}
+        />
       </div>
-    </>
+      <p className="text-[#99999b] text-sm line-clamp-2 mb-3 whitespace-pre-wrap">
+        {truncateText(props.description, 80)}
+      </p>
+      <div className="flex items-center justify-between">
+        <time className="text-xs text-[#99999b]">
+          {props.createdDate ? formatDate(props.createdDate) : "No Date"}
+        </time>
+      </div>
+    </div>
   );
 };
 

@@ -15,18 +15,17 @@ export const UserProvider = ({ children }) => {
     const { authenticatedUser } = loggedInUserData;
     const { password, token, ...UserSafeData } = authenticatedUser;
     setUser({ authenticatedUser: UserSafeData });
-
     localStorage.setItem("user", JSON.stringify(UserSafeData));
   };
 
   const logOutUser = async () => {
     try {
       const { data } = await axios.delete("/api/auth/user-logout");
-      localStorage.removeItem("loginUser");
+      localStorage.removeItem("user");
       setUser(null);
       enqueueSnackbar(data.msg, { variant: "success" });
     } catch (error) {
-      enqueueSnackbar(error.response?.data?.msg, { variant: "success" });
+      enqueueSnackbar(error.response?.data?.msg || "Error logging out", { variant: "error" });
     }
   };
 
@@ -42,5 +41,9 @@ UserProvider.propTypes = {
 };
 
 export const useUserContext = () => {
-  return useContext(UserContext);
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUserContext must be used within a UserProvider");
+  }
+  return context;
 };

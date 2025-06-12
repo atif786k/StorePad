@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../context/UserContext";
-import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-import "../utils/style/mainFrame.css";
 import SideBar from "../components/SideBar";
 import NotesList from "../components/NotesList";
 import NoteDetails from "../components/NoteDetails";
@@ -15,13 +13,15 @@ const MainFrame = () => {
   const navigate = useNavigate();
   const [allNotes, setAllNotes] = useState([]);
   const [singleNote, setSingleNote] = useState([]);
+  const [favouriteNotes, setFavouriteNotes] = useState([]);
   const [openCreateNoteCard, setOpenCreateNoteCard] = useState(false);
+  const [activeView, setActiveView] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const getAllNotes = async () => {
     try {
       const { data } = await axios.get("/api/notes/fetch-note");
       setAllNotes(data.notes);
-      enqueueSnackbar(data.msg, { variant: "success" });
     } catch (error) {
       console.log(error.response?.data?.error);
     }
@@ -36,36 +36,108 @@ const MainFrame = () => {
     }
   };
 
+  const getFavouriteNotes = async () => {
+    try {
+      const { data } = await axios.get("/api/activity/fetch-liked-notes");
+      if (data.data.length === 0) {
+        console.log(data.msg);
+        setFavouriteNotes([]);
+        return;
+      }
+      const likedNotes = await Promise.all(
+        data.data.map(async (liked) => {
+          try {
+            const favResponse = await axios.get(
+              `/api/notes/fetch-note/${liked.noteId}`
+            );
+            return favResponse.data.singleNote;
+          } catch (error) {
+            if (error.response?.status === 404) {
+              console.warn(`Note ${liked.noteId} not found, skipping it`);
+              return null;
+            }
+            throw error;
+          }
+        })
+      );
+      setFavouriteNotes(likedNotes.filter((like) => like !== null));
+    } catch (error) {
+      console.log(
+        "Something went wrong while fetching the favourite notes: ",
+        error.response?.data?.msg
+      );
+    }
+  };
+
+  const toggleFavouriteNotes = async (noteId) => {
+    try {
+      const isFavourite = favouriteNotes.some((note) => note._id === noteId);
+      if (isFavourite) {
+        await axios.delete(`/api/activity/${noteId}/unliked-note`);
+        console.log("Note unliked successfully");
+      } else {
+        await axios.post(`/api/activity/${noteId}/liked-note`);
+        console.log("Note liked successfully");
+      }
+      getFavouriteNotes();
+    } catch (error) {
+      console.error(
+        error.response?.data?.msg ||
+          "Something went wrong while updating like status."
+      );
+      console.error("Like toggle error:", error.response.data.msg);
+    }
+  };
+
   useEffect(() => {
     if (!user?.authenticatedUser) {
-      enqueueSnackbar("Please log in to access this page", {
-        variant: "warning",
-      });
-      navigate("/login");
-    } else {
-      getAllNotes();
+      navigate("/login", { replace: true });
+      return;
     }
-  }, []);
+    getAllNotes();
+    getFavouriteNotes();
+    if (activeView === "favorites") {
+      getFavouriteNotes();
+    }
+    const intervalId = setInterval(() => {
+      getAllNotes();
+    }, 60000 * 2);
+    return () => clearInterval(intervalId);
+  }, [user, navigate, activeView]);
+
+  // If user is not authenticated, don't render the component
+  if (!user?.authenticatedUser) {
+    return null;
+  }
 
   return (
-    <div className="main-frame">
+    <div className="min-h-screen bg-[#0f0f0f] text-[#c0c0c3] overflow-x-hidden">
       <NavBar />
-      <div className="inner-frame">
-        <SideBar />
-        <NotesList
-          allNotes={allNotes}
-          getSingleNote={getSingleNote}
-          openCreateCard={() => setOpenCreateNoteCard(true)}
-        />
-        <NoteDetails singleNote={singleNote} fetchAllNotes={getAllNotes}/>
+      <div className="flex h-[calc(100vh-75px)]">
+        <SideBar activeView={activeView} setActiveView={setActiveView} />
+        <div className="flex-1 flex min-w-0">
+          <NotesList
+            allNotes={allNotes}
+            getSingleNote={getSingleNote}
+            openCreateCard={() => setOpenCreateNoteCard(true)}
+            activeView={activeView}
+            favouriteNotes={favouriteNotes}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          <NoteDetails
+            singleNote={singleNote}
+            clearNoteField={() => setSingleNote([])}
+            fetchAllNotes={getAllNotes}
+            favouriteNotes={favouriteNotes}
+            toggleFavouriteNotes={toggleFavouriteNotes}
+          />
+        </div>
       </div>
       {openCreateNoteCard && (
-        <div
-          className="pop-up py-3 fixed inset-0 bg-black bg-opacity-70 flex items-center
-         justify-center z-50 overflow-y-scroll"
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto">
           <CreateNote_Card
-          fetchAllNotes={getAllNotes}
+            fetchAllNotes={getAllNotes}
             closeCreateNoteCard={() => setOpenCreateNoteCard(false)}
           />
         </div>
