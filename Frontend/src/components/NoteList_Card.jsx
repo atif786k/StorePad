@@ -66,8 +66,8 @@ const NoteList_Card = (props) => {
           } transition-colors duration-200`}
         />
       </div>
-      <p className="text-[#99999b] text-sm line-clamp-2 mb-3 whitespace-pre-wrap">
-        {truncateText(props.description, 80)}
+      <p className="text-[#99999b] text-sm line-clamp-2 mb-3 whitespace-pre-wrap" dangerouslySetInnerHTML={{__html: props.description || ""}}>
+        {/* {truncateText(props.description, 80)} */}
       </p>
       <div className="flex items-center justify-between">
         <time className="text-xs text-[#99999b]">

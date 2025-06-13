@@ -3,7 +3,10 @@ import { FaStar } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import axios from "../axios";
+import "../App.css";
 
 const NoteDetails = ({
   singleNote,
@@ -22,6 +25,36 @@ const NoteDetails = ({
   const isFavourite = favouriteNotes.some(
     (note) => note._id === singleNote._id
   );
+
+  const quillModules = {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["blockquote", "code-block"],
+      [{ script: "sub" }, { script: "super" }], // superscript/subscript
+      [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+      [{ direction: "rtl" }], // text direction
+
+      [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+      [{ font: [] }],
+    ],
+  };
+
+  const quillFormats = [
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "code-block",
+    "list",
+    "bullet",
+    "indent",
+    "script",
+    "size",
+    "font",
+    "direction",
+  ];
 
   useEffect(() => {
     setNoteData({
@@ -64,10 +97,10 @@ const NoteDetails = ({
   };
 
   return (
-    <div className="flex-1 p-6 bg-[#0f0f0f] min-w-0">
-      <div className="max-w-full mx-auto h-[calc(100vh-120px)] flex flex-col">
+    <div className="flex-1 px-6 bg-[#0f0f0f] min-w-0">
+      <div className="max-w-full mx-auto h-[calc(100vh-80px)] flex flex-col">
         {isEditing ? (
-          <div className="space-y-6 flex-1 overflow-y-auto">
+          <div className="space-y-6 py-6 mb-2 flex-1 overflow-y-auto no-scrollbar">
             <div className="flex items-start justify-between">
               <input
                 type="text"
@@ -116,7 +149,7 @@ const NoteDetails = ({
               </select>
             </div>
 
-            <textarea
+            {/* <textarea
               value={noteData.description}
               onChange={(e) =>
                 setNoteData((prev) => ({
@@ -126,12 +159,32 @@ const NoteDetails = ({
               }
               placeholder="Your description..."
               className="whitespace-pre-wrap w-full h-[calc(100vh-300px)] p-4 bg-[#191919] border border-[#252525] rounded-[1rem] focus:outline-none focus:ring-1 focus:ring-[#1f75fe] resize-none text-[#c0c0c3] custom-scrollbar custom-scrollbar-thumb placeholder:text-[#99999b]"
+            /> */}
+            <ReactQuill
+              theme="snow"
+              value={noteData.description}
+              onChange={(value) =>
+                setNoteData((prev) => ({
+                  ...prev,
+                  description: value,
+                }))
+              }
+              modules={quillModules}
+              formats={quillFormats}
+              className="custom-quill-editor"
+              style={{
+                border: "none",
+                outline: "none",
+                height: "calc(100vh - 300px)",
+                color: "#c0c0c3",
+              }}
             />
           </div>
         ) : (
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <div className="flex items-start justify-between mb-6">
+          <div className="py-6 flex-1 flex flex-col overflow-y-hidden">
+            <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold text-white break-words pr-4">
+                <span className="py-2 px-1 mt-10 mr-4 rounded-md bg-[#1f75fe]"></span>
                 {singleNote?.title || "Open a note"}
               </h2>
               <div className="flex space-x-2 flex-shrink-0">
@@ -163,10 +216,15 @@ const NoteDetails = ({
                 </button>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto prose prose-invert max-w-none custom-scrollbar custom-scrollbar-thumb">
-              <p className="text-[#c0c0c3] whitespace-pre-wrap break-words">
+            <div
+              className="px-8 flex-1 overflow-y-auto prose prose-invert max-w-none whitespace-pre-wrap custom-scrollbar custom-scrollbar-thumb custom-quill-editor"
+              dangerouslySetInnerHTML={{
+                __html: singleNote?.description || "",
+              }}
+            >
+              {/* <p className="text-[#c0c0c3] whitespace-pre-wrap break-words">
                 {singleNote?.description || ""}
-              </p>
+              </p> */}
             </div>
           </div>
         )}

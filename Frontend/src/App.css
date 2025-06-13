@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wdth,wght@75..100,100..900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Savate:wght@200..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Savate:wght@200..900&display=swap");
 
 .app-container {
   height: 100vh;
@@ -9,6 +9,8 @@
   font-family: "Roboto", sans-serif;
   transition: all ease-in 0.3s;
 }
+
+/* Custom css for logo design */
 .logo-font {
   font-family: "Oswald", sans-serif;
   font-weight: 400;
@@ -17,6 +19,8 @@
   margin-left: 4px;
   letter-spacing: 0.05rem;
 }
+
+/* Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
   background-color: transparent;
@@ -28,4 +32,47 @@
 }
 .no-scrollbar::-webkit-scrollbar {
   width: 0px;
+}
+
+/* Tailwind typography overriding styles */
+.prose :where(h1, h2, h3, h4, p, ul, ol, li, pre) {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+.prose :where(ul, ol) {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+}
+
+/* In your global CSS file (e.g. index.css, globals.css, etc.) */
+.custom-quill-editor .ql-toolbar {
+  color: white;
+  padding: 120px;
+}
+.custom-quill-editor .ql-container {
+  background-color: #191919;
+  color: white;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+.custom-quill-editor .ql-editor {
+  min-height: calc(100vh - 360px);
+  color: #c0c0c3;
+  scrollbar-width: none; /* Firefox */
+  padding: 1rem;
+}
+.custom-quill-editor .ql-editor::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.custom-quill-editor .ql-size-small {
+  font-size: 0.75rem; /* 12px */
+}
+.custom-quill-editor .ql-size-normal {
+  font-size: 1rem; /* 16px (default) */
+}
+.custom-quill-editor .ql-size-large {
+  font-size: 1.5rem; /* 20px */
+}
+.custom-quill-editor .ql-size-huge {
+  font-size: 1.75rem; /* 24px or larger */
 }
