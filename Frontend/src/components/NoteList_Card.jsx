@@ -47,7 +47,7 @@ const NoteList_Card = (props) => {
   };
 
   return (
-    <div className="bg-[#191919] rounded-[1rem] p-4 hover:bg-[#0f0f0f] transition-colors duration-200 border border-[#252525]">
+    <div className="bg-[#191919] rounded-lg p-4 hover:bg-[#0f0f0f] transition-colors duration-200 border border-[#252525]">
       {props.deleteAt && (
         <div className="flex items-center text-red-400 text-sm font-medium mb-2">
           <span>{countdown}</span>

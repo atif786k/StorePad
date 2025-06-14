@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { HiOutlinePlus } from "react-icons/hi2";
 import NoteList_Card from "./NoteList_Card";
@@ -12,6 +12,7 @@ const NotesList = ({
   searchQuery,
   setSearchQuery,
 }) => {
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
   // Sort notes in Descending order
   const sortedNotes = [...allNotes].sort((a, b) => {
     return new Date(b.updatedAt) - new Date(a.updatedAt);
@@ -47,7 +48,7 @@ const NotesList = ({
         </div>
         <button
           onClick={openCreateCard}
-          className="p-2 bg-[#1f75fe] text-white rounded-lg hover:bg-[#1f75fe]/90 focus:outline-none focus:ring-1 focus:ring-[#1f75fe] focus:ring-offset-2 focus:ring-offset-[#191919] transition-colors duration-200 flex-shrink-0"
+          className="p-2 bg-[#1f75fe] text-white rounded-lg hover:bg-[#1f75fe]/70 focus:outline-none"
         >
           <HiOutlinePlus className="w-6 h-6" />
         </button>
@@ -62,8 +63,15 @@ const NotesList = ({
             filteredNotes.map((note) => (
               <div
                 key={note._id}
-                onClick={() => getSingleNote(note._id)}
-                className="cursor-pointer"
+                onClick={() => {
+                  getSingleNote(note._id);
+                  setSelectedNoteId(note._id);
+                }}
+                className={`cursor-pointer border-2 rounded-lg ${
+                  selectedNoteId === note._id
+                    ? "border-[#1f75fe]/70"
+                    : "border-transparent"
+                }`}
               >
                 <NoteList_Card
                   title={note.title}

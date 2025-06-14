@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
-import { MdOutlineDelete } from "react-icons/md";
+import {
+  MdOutlineStar,
+  MdModeEdit,
+  MdDeleteOutline,
+  MdContentCopy,
+} from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -96,6 +101,40 @@ const NoteDetails = ({
     }
   };
 
+  const handleCopyToClipboard = async () => {
+    try {
+      const tempElement = document.createElement("div");
+      tempElement.innerHTML = singleNote?.description || "";
+      const plainTextDescription =
+        tempElement.textContent || tempElement.innerHTML || "";
+      const textToCopy = `Title: ${
+        singleNote?.title || ""
+      }\n\n${plainTextDescription}`;
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "text/html": new Blob([singleNote?.description || ""], {
+            type: "text/html",
+          }),
+          "text/plain": new Blob([textToCopy], { type: "text/plain" }),
+        }),
+      ]);
+      console.log(textToCopy);
+      enqueueSnackbar("Note copied to clipboard", { variant: "success" });
+    } catch (error) {
+      console.error("Copy failed:", error);
+      enqueueSnackbar("Failed to copy note", { variant: "error" });
+    }
+  };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      // year: "numeric",
+    });
+  };
+
   return (
     <div className="flex-1 px-6 bg-[#0f0f0f] min-w-0">
       <div className="max-w-full mx-auto h-[calc(100vh-80px)] flex flex-col">
@@ -114,13 +153,13 @@ const NoteDetails = ({
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 text-sm font-medium text-[#c0c0c3] bg-[#252525] rounded-md hover:bg-[#252525] focus:outline-none focus:ring-2 focus:ring-[#191919]"
+                  className="px-4 py-2 text-sm font-medium text-[#c0c0c3] bg-[#252525] rounded-lg hover:bg-[#252525]/70 focus:outline-none focus:ring-2 focus:ring-[#191919]"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleUpdateNote}
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#1f75fe] rounded-md hover:bg-[#1f75fe]/90 focus:outline-none focus:ring-2 focus:ring-[#1f75fe]"
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#1f75fe] rounded-lg hover:bg-[#1f75fe]/70 focus:outline-none"
                 >
                   Update
                 </button>
@@ -128,9 +167,9 @@ const NoteDetails = ({
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#99999b]">
-                Auto-delete after
-              </label>
+              {/* <label className="block text-sm font-medium text-[#99999b]">
+                Timer ( Auto-delete )
+              </label> */}
               <select
                 value={noteData.deleteAfter}
                 onChange={(e) =>
@@ -139,7 +178,7 @@ const NoteDetails = ({
                     deleteAfter: e.target.value,
                   }))
                 }
-                className="w-full px-3 py-3 bg-[#191919] border border-[#252525] rounded-[1rem] focus:outline-none focus:ring-1 focus:ring-[#1f75fe] text-[#99999b]"
+                className="w-full px-3 py-3 bg-[#191919] border border-[#252525] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1f75fe] text-[#99999b]"
               >
                 <option value="">Don't auto-delete</option>
                 <option value={60000}>After 1 minute</option>
@@ -158,7 +197,7 @@ const NoteDetails = ({
                 }))
               }
               placeholder="Your description..."
-              className="whitespace-pre-wrap w-full h-[calc(100vh-300px)] p-4 bg-[#191919] border border-[#252525] rounded-[1rem] focus:outline-none focus:ring-1 focus:ring-[#1f75fe] resize-none text-[#c0c0c3] custom-scrollbar custom-scrollbar-thumb placeholder:text-[#99999b]"
+              className="whitespace-pre-wrap w-full h-[calc(100vh-300px)] p-4 bg-[#191919] border border-[#252525] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1f75fe] resize-none text-[#c0c0c3] custom-scrollbar custom-scrollbar-thumb placeholder:text-[#99999b]"
             /> */}
             <ReactQuill
               theme="snow"
@@ -184,7 +223,7 @@ const NoteDetails = ({
           <div className="py-6 flex-1 flex flex-col overflow-y-hidden">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold text-white break-words pr-4">
-                <span className="py-2 px-1 mt-10 mr-4 rounded-md bg-[#1f75fe]"></span>
+                <span className="py-2 px-1 mt-10 mr-6 rounded-md bg-[#1f75fe]"></span>
                 {singleNote?.title || "Open a note"}
               </h2>
               <div className="flex space-x-2 flex-shrink-0">
@@ -206,25 +245,42 @@ const NoteDetails = ({
                   }
                   className="p-2 text-white hover:text-[#1f75fe] transition-colors duration-200"
                 >
-                  <FiEdit2 className="text-xl" />
+                  <MdModeEdit className="text-xl" />
+                </button>
+                <button
+                  onClick={handleCopyToClipboard}
+                  className="p-2 text-white hover:text-[#1f75fe] transition-colors duration-200"
+                >
+                  <MdContentCopy className="text-xl" />
                 </button>
                 <button
                   onClick={handleDeleteNote}
-                  className="p-2 text-white hover:text-red-400 transition-colors duration-200"
+                  className="p-2 text-white hover:text-red-500 transition-colors duration-200"
                 >
-                  <MdOutlineDelete className="text-xl" />
+                  <MdDeleteOutline className="text-xl" />
                 </button>
               </div>
             </div>
-            <div
-              className="px-8 flex-1 overflow-y-auto prose prose-invert max-w-none whitespace-pre-wrap custom-scrollbar custom-scrollbar-thumb custom-quill-editor"
-              dangerouslySetInnerHTML={{
-                __html: singleNote?.description || "",
-              }}
-            >
-              {/* <p className="text-[#c0c0c3] whitespace-pre-wrap break-words">
+
+            <div className="px-8 flex-1 overflow-y-auto max-w-none custom-scrollbar custom-scrollbar-thumb prose prose-invert">
+              <div className="mb-6 flex items-center space-x-8">
+                <span className="text-sm text-[#99999b]">
+                  Updated - {formatDate(singleNote?.updatedAt)}
+                </span>
+                <span className="text-sm text-[#99999b]">
+                  Created - {formatDate(singleNote?.createdAt)}
+                </span>
+              </div>
+              <p
+                className=" whitespace-pre-wrap custom-quill-editor"
+                dangerouslySetInnerHTML={{
+                  __html: singleNote?.description || "",
+                }}
+              >
+                {/* <p className="text-[#c0c0c3] whitespace-pre-wrap break-words">
                 {singleNote?.description || ""}
-              </p> */}
+                </p> */}
+              </p>
             </div>
           </div>
         )}

@@ -11,13 +11,27 @@
 }
 
 /* Custom css for logo design */
-.logo-font {
+.logo-styling {
+  display: flex;
+  align-items: end;
+  font-size: 36px;
   font-family: "Oswald", sans-serif;
-  font-weight: 400;
-  font-size: 32px;
-  color: white;
-  margin-left: 4px;
-  letter-spacing: 0.05rem;
+  font-weight: 900;
+  line-height: 32px;
+  text-transform: uppercase;
+}
+.logo-styling svg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #1f75fe;
+}
+.logo-styling svg {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease-in-out;
+}
+.logo-styling:hover svg {
+  transform: rotate(-45deg);
 }
 
 /* Custom scrollbar */
@@ -46,8 +60,7 @@
 
 /* In your global CSS file (e.g. index.css, globals.css, etc.) */
 .custom-quill-editor .ql-toolbar {
-  color: white;
-  padding: 120px;
+  font-size: 24px;
 }
 .custom-quill-editor .ql-container {
   background-color: #191919;
