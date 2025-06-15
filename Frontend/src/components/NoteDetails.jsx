@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import { FiEdit2 } from "react-icons/fi";
 import {
-  MdOutlineStar,
   MdModeEdit,
   MdDeleteOutline,
   MdContentCopy,
@@ -62,10 +60,25 @@ const NoteDetails = ({
   ];
 
   useEffect(() => {
+    const { title, description, deleteAt, updatedAt, createdAt } = singleNote;
+    let deleteAfter = "";
+
+    if (deleteAt) {
+      const baseTime = new Date(updatedAt || createdAt).getTime();
+      const deleteTime = new Date(deleteAt).getTime();
+      const diff = deleteTime - baseTime;
+
+      // Match one of the predefined values (as strings)
+      const validOptions = ["60000", "3600000", "86400000", "604800000"];
+      if (validOptions.includes(diff.toString())) {
+        deleteAfter = diff.toString();
+      }
+    }
+
     setNoteData({
-      title: singleNote?.title || "",
-      description: singleNote?.description || "",
-      deleteAfter: "", // default: no auto-delete
+      title,
+      description,
+      deleteAfter,
     });
   }, [singleNote]);
 
@@ -150,7 +163,7 @@ const NoteDetails = ({
                 placeholder="Title..."
                 className="text-2xl font-semibold bg-transparent pb-4 border-b border-[#252525] focus:border-[#1f75fe] focus:outline-none w-fit text-[#c0c0c3] placeholder:text-[#99999b]"
               />
-              <div className="flex items-center space-x-2">
+              <div className="space-y-2 md:flex md:items-center md:space-x-2">
                 <button
                   onClick={() => setIsEditing(false)}
                   className="px-4 py-2 text-sm font-medium text-[#c0c0c3] bg-[#252525] rounded-lg hover:bg-[#252525]/70 focus:outline-none focus:ring-2 focus:ring-[#191919]"
@@ -167,9 +180,6 @@ const NoteDetails = ({
             </div>
 
             <div className="space-y-2">
-              {/* <label className="block text-sm font-medium text-[#99999b]">
-                Timer ( Auto-delete )
-              </label> */}
               <select
                 value={noteData.deleteAfter}
                 onChange={(e) =>
@@ -181,10 +191,10 @@ const NoteDetails = ({
                 className="w-full px-3 py-3 bg-[#191919] border border-[#252525] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1f75fe] text-[#99999b]"
               >
                 <option value="">Don't auto-delete</option>
-                <option value={60000}>After 1 minute</option>
-                <option value={3600000}>After 1 hour</option>
-                <option value={86400000}>After 1 day</option>
-                <option value={604800000}>After 7 days</option>
+                <option value="60000">After 1 minute</option>
+                <option value="3600000">After 1 hour</option>
+                <option value="86400000">After 1 day</option>
+                <option value="604800000">After 7 days</option>
               </select>
             </div>
 
@@ -222,9 +232,9 @@ const NoteDetails = ({
         ) : (
           <div className="py-6 flex-1 flex flex-col overflow-y-hidden">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-white break-words pr-4">
-                <span className="py-2 px-1 mt-10 mr-6 rounded-md bg-[#1f75fe]"></span>
-                {singleNote?.title || "Open a note"}
+              <h2 className="text-2xl font-semibold text-white break-words flex items-start md:items-center space-x-6">
+                <span className="py-2 px-1 h-12 mt0 rounded-md bg-[#1f75fe]"></span>
+                <span>{singleNote?.title || "Open a note"}</span>
               </h2>
               <div className="flex space-x-2 flex-shrink-0">
                 <button
@@ -276,11 +286,7 @@ const NoteDetails = ({
                 dangerouslySetInnerHTML={{
                   __html: singleNote?.description || "",
                 }}
-              >
-                {/* <p className="text-[#c0c0c3] whitespace-pre-wrap break-words">
-                {singleNote?.description || ""}
-                </p> */}
-              </p>
+              ></p>
             </div>
           </div>
         )}

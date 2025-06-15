@@ -21,16 +21,20 @@ const NavBar = () => {
             <h1 className="logo-styling">
               St
               <span>
-                <svg class="c-bttn__morph" fill="none" viewBox="0 0 131 136">
+                <svg
+                  className="c-bttn__morph"
+                  fill="none"
+                  viewBox="0 0 131 136"
+                >
                   <g transform="scale(1.5) translate(-22, -22)">
                     <path
-                      class="g-path"
+                      className="g-path"
                       data-morph="end"
                       fill="#fff"
                       d="M48 77.457v7.224h7.224l21.307-21.306-7.224-7.225L48 77.457Zm34.118-19.67a1.919 1.919 0 0 0 0-2.716l-4.508-4.508a1.919 1.919 0 0 0-2.716 0l-3.526 3.526 7.224 7.224 3.526-3.525Z"
                     />
                     <path
-                      class="g-path"
+                      className="g-path"
                       data-morph="start"
                       fill="#fff"
                       d="M48 77.457v7.224h7.224l21.307-21.306-7.224-7.225L48 77.457Zm34.118-19.67a1.919 1.919 0 0 0 0-2.716l-4.508-4.508a1.919 1.919 0 0 0-2.716 0l-3.526 3.526 7.224 7.224 3.526-3.525Z"

@@ -79,7 +79,7 @@ router.put("/edit-note/:id", async (req, res) => {
   } = req;
   const { title, description, deleteAfter } = req.body;
 
-  if (!title && !description) {
+  if (!title && !description && deleteAfter === undefined) {
     return res.status(400).json({ msg: "No changes done" });
   }
 
@@ -95,10 +95,11 @@ router.put("/edit-note/:id", async (req, res) => {
       note.description = description;
     }
 
-    let deleteAt = null;
     if (deleteAfter) {
-      deleteAt = new Date(Date.now() + Number(deleteAfter));
+      const deleteAt = new Date(Date.now() + Number(deleteAfter));
       note.deleteAt = deleteAt;
+    } else {
+      note.deleteAt = null;
     }
 
     const updatedNote = await note.save();

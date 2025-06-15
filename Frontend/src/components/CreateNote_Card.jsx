@@ -35,7 +35,7 @@ const CreateNote_Card = ({ fetchAllNotes, closeCreateNoteCard }) => {
     <>
       <form
         onSubmit={handleNoteCreation}
-        className="max-w-3xl mx-4 p-8 bg-[#191919] transition-colors duration-200 border border-[#252525] rounded-lg space-y-4 md:w-[800px]"
+        className="w-full md:w-[800px] mx-4 p-8 bg-[#191919] transition-colors duration-200 border border-[#252525] rounded-lg space-y-4 "
       >
         <h3 className="text-2xl font-semibold mb-4">Create a Note</h3>
 
@@ -113,7 +113,10 @@ const CreateNote_Card = ({ fetchAllNotes, closeCreateNoteCard }) => {
           >
             Save
           </button>
-          <button onClick={closeCreateNoteCard} className="py-2 px-6 rounded-lg text-[#1f75fe] hover:bg-[#252525]/70">
+          <button
+            onClick={closeCreateNoteCard}
+            className="py-2 px-6 rounded-lg text-[#1f75fe] hover:bg-[#252525]/70"
+          >
             Cancel
           </button>
         </div>

@@ -35,7 +35,7 @@ const NotesList = ({
   }
 
   return (
-    <div className="w-1/3 min-w-[300px] border-r border-[#252525] p-6 flex flex-col">
+    <div className="w-full md:w-1/3 min-w-[300px] border-r border-[#252525] p-6 flex flex-col">
       <div className="flex items-center space-x-2 mb-6">
         <div className="relative flex-1">
           <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#99999b] w-5 h-5" />

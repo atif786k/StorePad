@@ -7,6 +7,7 @@ import NoteDetails from "../components/NoteDetails";
 import axios from "../axios";
 import NavBar from "../components/NavBar";
 import CreateNote_Card from "../components/CreateNote_Card";
+import { MdClose } from "react-icons/md";
 
 const MainFrame = () => {
   const { user } = useUserContext();
@@ -113,7 +114,7 @@ const MainFrame = () => {
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-[#c0c0c3] overflow-x-hidden">
       <NavBar />
-      <div className="flex h-[calc(100vh-75px)]">
+      <div className="lg:flex h-[calc(100vh-75px)]">
         <SideBar activeView={activeView} setActiveView={setActiveView} />
         <div className="flex-1 flex min-w-0">
           <NotesList
@@ -125,13 +126,15 @@ const MainFrame = () => {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
-          <NoteDetails
-            singleNote={singleNote}
-            clearNoteField={() => setSingleNote([])}
-            fetchAllNotes={getAllNotes}
-            favouriteNotes={favouriteNotes}
-            toggleFavouriteNotes={toggleFavouriteNotes}
-          />
+          <div className="hidden md:flex flex-1 min-w-0">
+            <NoteDetails
+              singleNote={singleNote}
+              clearNoteField={() => setSingleNote([])}
+              fetchAllNotes={getAllNotes}
+              favouriteNotes={favouriteNotes}
+              toggleFavouriteNotes={toggleFavouriteNotes}
+            />
+          </div>
         </div>
       </div>
       {openCreateNoteCard && (
@@ -140,6 +143,29 @@ const MainFrame = () => {
             fetchAllNotes={getAllNotes}
             closeCreateNoteCard={() => setOpenCreateNoteCard(false)}
           />
+        </div>
+      )}
+      {singleNote?._id && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-40 md:hidden">
+          <div className="w-full h-full overflow-y-auto p-4">
+            <div className="bg-[#0f0f0f] rounded-lg shadow-lg h-full overflow-hidden">
+              <div className="flex justify-end md:hidden pt-4 px-4">
+                <button
+                  onClick={() => setSingleNote([])}
+                  className="text-white bg-[#1f75fe] hover:bg-[#1f75fe]/70 p-2 rounded-full"
+                >
+                  <MdClose className="text-lg" />
+                </button>
+              </div>
+              <NoteDetails
+                singleNote={singleNote}
+                clearNoteField={() => setSingleNote([])}
+                fetchAllNotes={getAllNotes}
+                favouriteNotes={favouriteNotes}
+                toggleFavouriteNotes={toggleFavouriteNotes}
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>

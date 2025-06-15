@@ -13,18 +13,24 @@ const SideBar = ({ activeView, setActiveView }) => {
     if (!username || typeof username !== "string" || username.length === 0) {
       return "";
     }
-    return username.charAt(0).toUpperCase(); 
+    return username.charAt(0).toUpperCase();
   };
 
   return (
-    <div className="w-64 bg-[#191919] border-r border-[#252525] p-6">
-      <div className="flex items-center space-x-4 mb-8">
-        <div className={`w-12 h-12 rounded-full flex items-center justify-center overflow-hidden relative ${username ? "bg-[#1f75fe]" : "bg-black"}`}>
-        {username ? (
-          <span className="text-white text-xl font-semibold">{getFirstLetter(username)}</span>
-        ) : (
-          <CiUser className="w-10 h-10 absolute -bottom-2" />
-        )}
+    <div className="w-full lg:w-64 bg-[#191919] border-r border-[#252525] p-6">
+      <div className="hidden lg:flex items-center space-x-4 mb-8">
+        <div
+          className={`w-12 h-12 rounded-full flex items-center justify-center overflow-hidden relative ${
+            username ? "bg-[#1f75fe]" : "bg-black"
+          }`}
+        >
+          {username ? (
+            <span className="text-white text-xl font-semibold">
+              {getFirstLetter(username)}
+            </span>
+          ) : (
+            <CiUser className="w-10 h-10 absolute -bottom-2" />
+          )}
         </div>
         <div>
           <h4 className="text-lg font-semibold text-white">{username}</h4>
@@ -36,7 +42,7 @@ const SideBar = ({ activeView, setActiveView }) => {
         <h2 className="text-xs font-semibold text-[#1f75fe] uppercase tracking-wider">
           Quick Links
         </h2>
-        <nav>
+        <nav className="flex items-center space-x-4 lg:flex-col lg:space-x-0">
           <button
             onClick={() => setActiveView("all")}
             className={`mb-1 w-full flex items-center space-x-3 py-1 rounded-lg text-[#c0c0c3] hover:bg-[#0f0f0f] hover:text-white transition-all ease-in duration-100 ${
