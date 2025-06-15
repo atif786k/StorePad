@@ -163,7 +163,7 @@ const NoteDetails = ({
                 placeholder="Title..."
                 className="text-2xl font-semibold bg-transparent pb-4 border-b border-[#252525] focus:border-[#1f75fe] focus:outline-none w-fit text-[#c0c0c3] placeholder:text-[#99999b]"
               />
-              <div className="space-y-2 md:space-y-2 md:flex md:items-center md:space-x-2">
+              <div className="space-y-2 md:space-y-0 md:flex md:items-center md:space-x-2">
                 <button
                   onClick={() => setIsEditing(false)}
                   className="px-4 py-2 text-sm font-medium text-[#c0c0c3] bg-[#252525] rounded-lg hover:bg-[#252525]/70 focus:outline-none focus:ring-2 focus:ring-[#191919]"
