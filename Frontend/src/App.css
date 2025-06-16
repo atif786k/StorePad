@@ -13,14 +13,14 @@
 /* Custom css for logo design */
 .logo-styling {
   display: flex;
-  align-items: end;
-  font-size: 36px;
-  font-family: "Oswald", sans-serif;
+  align-items: center;
+  font-size: 24px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
   font-weight: 900;
   line-height: 32px;
-  text-transform: uppercase;
 }
-.logo-styling svg {
+/* .logo-styling svg {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -32,7 +32,7 @@
 }
 .logo-styling:hover svg {
   transform: rotate(-45deg);
-}
+} */
 
 /* Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {

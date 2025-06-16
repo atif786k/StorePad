@@ -20,12 +20,12 @@ const SideBar = ({ activeView, setActiveView }) => {
     <div className="w-full lg:w-64 bg-[#191919] border-r border-[#252525] p-6">
       <div className="hidden lg:flex items-center space-x-4 mb-8">
         <div
-          className={`w-12 h-12 rounded-full flex items-center justify-center overflow-hidden relative ${
+          className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative ${
             username ? "bg-[#1f75fe]" : "bg-black"
           }`}
         >
           {username ? (
-            <span className="text-white text-xl font-semibold">
+            <span className="text-white text-md font-semibold">
               {getFirstLetter(username)}
             </span>
           ) : (

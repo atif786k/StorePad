@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import {
-  MdModeEdit,
-  MdDeleteOutline,
-  MdContentCopy,
-} from "react-icons/md";
+import { MdModeEdit, MdDeleteOutline, MdContentCopy } from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -149,7 +145,7 @@ const NoteDetails = ({
   };
 
   return (
-    <div className="flex-1 px-6 bg-[#0f0f0f] min-w-0">
+    <div className="flex-1 px-2 md:px-6 bg-[#0f0f0f] min-w-0">
       <div className="max-w-full mx-auto h-[calc(100vh-80px)] flex flex-col">
         {isEditing ? (
           <div className="space-y-6 py-6 mb-2 flex-1 overflow-y-auto no-scrollbar">
@@ -233,7 +229,7 @@ const NoteDetails = ({
           <div className="py-6 flex-1 flex flex-col overflow-y-hidden">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-semibold text-white break-words flex items-start md:items-center space-x-6">
-                <span className="py-2 px-1 h-12 mt0 rounded-md bg-[#1f75fe]"></span>
+                <span className="py-2 px-1 h-12 rounded-md bg-[#1f75fe]"></span>
                 <span>{singleNote?.title || "Open a note"}</span>
               </h2>
               <div className="flex space-x-2 flex-shrink-0">
@@ -272,7 +268,7 @@ const NoteDetails = ({
               </div>
             </div>
 
-            <div className="px-8 flex-1 overflow-y-auto max-w-none custom-scrollbar custom-scrollbar-thumb prose prose-invert">
+            <div className="px-4 md:px-8 flex-1 overflow-y-auto max-w-none custom-scrollbar custom-scrollbar-thumb prose prose-invert">
               <div className="mb-6 flex items-center space-x-8">
                 <span className="text-sm text-[#99999b]">
                   Updated - {formatDate(singleNote?.updatedAt)}
